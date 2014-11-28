@@ -10,6 +10,7 @@
 .idea/
 
 #Sassy stuff
+*.css
 website/static/css/*
 .sass-cache
 *.css.map
