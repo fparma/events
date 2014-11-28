@@ -1,0 +1,18 @@
+#Shell scripts
+*.sh
+*.cmd
+*.bat
+
+#python related
+*.pyc
+
+#pycharm related
+.idea/
+
+#Sassy stuff
+website/static/css/*
+.sass-cache
+*.css.map
+
+#Vim swap files
+.*.s??
