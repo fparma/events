@@ -1,4 +1,4 @@
-#Shell scripts
+#shell scripts
 *.sh
 *.cmd
 *.bat
@@ -9,11 +9,13 @@
 #pycharm related
 .idea/
 
-#Sassy stuff
+#sassy stuff
 .sass-cache
 *.css
 *.css.map
 
-#Vim swap files
+#vim swap files
 .*.s??
+
+#config
 appconf.py
