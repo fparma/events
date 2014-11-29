@@ -10,9 +10,8 @@
 .idea/
 
 #Sassy stuff
-*.css
-website/static/css/*
 .sass-cache
+*.css
 *.css.map
 
 #Vim swap files
