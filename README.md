@@ -5,6 +5,9 @@ Simple site built in flask to display coming events, list past events and allow 
 
 Requirements
 ---------------
+* SASS
+  * Compass
+  * Susy
 * Python >= 3.3
   * Flask
     * Flask-OpenID
