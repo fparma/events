@@ -1,1 +1,11 @@
-{% extends 'layout.html' %}
+<div class="event">
+	<div class="event-image"></div>
+	<h1 class="event-title"></h1>
+	<div class="event-roles">
+		{% for role in roles %}
+			{% include 'role.html' %}
+		{% else %}
+			<span class="event-roles-undefined">No defined roles!</div>
+		{% endfor %}
+	</div>
+</div>
