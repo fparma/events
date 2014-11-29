@@ -43,4 +43,4 @@ def index():
 @app.route('/<evid>')
 def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
-    return render_template('event.html', ev)
+    return render_template('event.html', event=ev)
