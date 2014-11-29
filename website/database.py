@@ -1,8 +1,19 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from website import app
+import urllib2
 
 app.config(['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
+
+def get_steam_userinfo(steam_id):
+    options = {
+        'key': app.config['STEAM_API_KEY'],
+        'steamids': steam_id
+    }
+    url = 'http://api.steampowered.com/ISteamUser/' \
+            'GetPlayerSummaries/v0001/?%s' % url_encode(options)
+    rv = json.load(urllib2.urlopen(url))
+    return rv['response']['players']['player'][0] or {}
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
