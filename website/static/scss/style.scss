@@ -3,12 +3,27 @@
 
 @import "grids";
 
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,latin-ext);
+
+$header-color: darken(#2E2E2E, 10%);
+$primary-color: #428bca;
+$secondary-color: orange;
+
 body {
-	
+	@include container;
+	font: 300 1.05em / 1.5em "Open Sans", serif;
+	color: $primary-color;
+	background: darken($header-color, 10%);
 }
 
-.container {
-	
+.content {
+	@include container(50%);
+	margin: 0 auto;
+}
+
+.header {
+	background: $header-color;
+	padding: 25px;
 }
 
 .event {

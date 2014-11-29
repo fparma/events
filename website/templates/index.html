@@ -2,6 +2,17 @@
 
 {% block content %}
 <div class="content">
-
+	<div class="header">
+		{% for event in events %}
+			{% include 'event-small.html' %}
+		{% else %}
+			<h1>No event scheduled!</h1>
+		{% endfor %}
+	</div>
+	<div class="pastevents">
+		{% for event in pastevents %}
+			{% include 'pastevent-small.html' %}
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}
