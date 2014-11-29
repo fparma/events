@@ -5,7 +5,9 @@ from urllib.parse import urlencode
 import codecs
 import json
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+from appconf import config
+
+app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 
 def get_steam_userinfo(steam_id):

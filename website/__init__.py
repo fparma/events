@@ -1,11 +1,13 @@
 from flask import Flask, render_template
 from flask.ext.openid import OpenID
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'verysecret'
-app.config['STEAM_API_KEY'] = '97A7020E727881AC0E9B6CC999266996'
+from appconf import config
 
-oid = OpenID(app, '/tmp/store', safe_roots=[])
+app = Flask(__name__)
+app.config['SECRET_KEY'] = config['SECRET_KEY']
+app.config['STEAM_API_KEY'] = config['STEAM_API_KEY']
+
+oid = OpenID(app, config['OPENID_STORE'], safe_roots=[])
 
 from website.database import db
 

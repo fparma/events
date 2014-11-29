@@ -16,3 +16,4 @@
 
 #Vim swap files
 .*.s??
+appconf.py

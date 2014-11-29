@@ -1,0 +1,13 @@
+config = {}
+
+# Secret stuff
+config['SECRET_KEY'] = 'wow'
+
+#OpenID config
+config['OPENID_STORE'] = '/tmp/such'
+
+# Steam Keys
+config['STEAM_API_KEY'] = 'key'
+
+# Database config
+config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/verylite.db'
