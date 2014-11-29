@@ -1,11 +1,12 @@
 // Screen
 // ======
 
+@import "compass/css3/box-shadow";
 @import "grids";
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,latin-ext);
 
-$header-color: darken(#2E2E2E, 10%);
+$header-color: #2E2E2E;
 $primary-color: #428bca;
 $secondary-color: orange;
 
@@ -13,7 +14,7 @@ body {
 	@include container;
 	font: 300 1.05em / 1.5em "Open Sans", serif;
 	color: $primary-color;
-	background: darken($header-color, 10%);
+	background: darken($header-color, 5%);
 }
 
 .content {
@@ -22,6 +23,8 @@ body {
 }
 
 .header {
+	@include box-shadow(inset 0px 1px -1px lighten($header-color, 10%));
+	border: 1px solid darken($header-color, 10%);
 	background: $header-color;
 	padding: 25px;
 }
