@@ -38,3 +38,4 @@ class User(db.Model):
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), unique=True)
+    # [TODO] timezone column with default value
