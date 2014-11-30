@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, g
+from flask import render_template, session, redirect, flash, g
 from website import app, oid
 
 from website.database import get_steam_userinfo, Event, User, db
@@ -29,18 +29,27 @@ def login():
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
     g.user = User.get_or_create(match.group(1))
+    print(match.group(1))
     steamdata = get_steam_userinfo(g.user.steam_id)
     g.user.nickname = steamdata['personaname']
     db.session.commit()
     session['user_id'] = g.user.id
-    print('You are logged in as %s' % g.user.nickname)
+    flash('You are logged in as %s' % g.user.nickname)
     return redirect(oid.get_next_url())
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    coming_events = Event.query.all()
+    return render_template('index.html', events=coming_events)
 
 @app.route('/<evid>')
 def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
-    return render_template('event.html', event=ev)
+    return render_template('event-page.html', event=ev)
+
+@app.route('/makeevent')
+def make_event():
+    new_event = Event(title="C028 Operation Lawman")
+    db.session.add(new_event)
+    db.session.commit()
+    return redirect('/')

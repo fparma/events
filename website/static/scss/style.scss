@@ -1,6 +1,7 @@
 // Screen
 // ======
 
+@import "compass/utilities/general/clearfix";
 @import "compass/css3/box-shadow";
 @import "grids";
 
@@ -23,14 +24,29 @@ body {
 }
 
 .header {
+	@include clearfix;
 	@include box-shadow(inset 0px 1px -1px lighten($header-color, 10%));
-	border: 1px solid darken($header-color, 10%);
+	border: 1px solid darken($header-color, 6%);
 	background: $header-color;
 	padding: 25px;
 }
 
+.event-sm-desc {
+
+}
+
+.event-sm-title {
+	font-size : 32px;
+	float: left;
+}
+
+.event-sm-slots {
+	font-weight: 400;
+	float: right;
+}
+
 .event {
-	
+
 }
 
 .event-image {
