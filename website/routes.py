@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, flash, g
+from flask import render_template, session, redirect, flash, url_for, request, g
 from functools import wraps
 
 from website import app, oid
@@ -56,7 +56,7 @@ def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
     return render_template('event-page.html', event=ev)
 
-@login_required
 @app.route('/create')
+@login_required
 def create_event():
     return render_template('event-create.html')
