@@ -16,6 +16,11 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+@app.after_request
+def add_header(response):
+    response.cache_control.max_age = 300
+    return response
+
 @app.before_request
 def before_request():
     g.user = None
