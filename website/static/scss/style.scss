@@ -15,7 +15,7 @@ body {
 	@include container;
 	font: 300 1.05em / 1.5em "Open Sans", serif;
 	color: $primary-color;
-	background: darken($header-color, 5%);
+	background: darken($header-color, 0%);
 }
 
 .content {
@@ -26,8 +26,6 @@ body {
 .header {
 	@include clearfix;
 	@include box-shadow(inset 0px 1px -1px lighten($header-color, 10%));
-	border: 1px solid darken($header-color, 6%);
-	background: $header-color;
 	padding: 25px;
 }
 
@@ -49,8 +47,30 @@ body {
 
 }
 
+.event-description {
+
+	header {
+		background: darken($header-color, 4%);
+		font-weight: 400;
+		padding: 10px;
+	}
+
+	section {
+		background: darken($header-color, 5%);
+		padding: 15px;
+		line-height: 1.5em;
+		font-size: 0.8em;
+		color: darken(white, 15%);
+	}
+}
+
 .event-image {
 	
+	img {
+		width: 100%;
+		height: auto;
+	}
+
 }
 
 .event-title {
@@ -58,7 +78,7 @@ body {
 }
 
 .event-slots {
-	
+	padding: 25px;
 }
 
 .event-slots-undefined {
