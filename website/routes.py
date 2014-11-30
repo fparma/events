@@ -1,11 +1,20 @@
 from flask import render_template, session, redirect, flash, g
-from website import app, oid
+from functools import wraps
 
+from website import app, oid
 from website.database import get_steam_userinfo, Event, User, db
 
 import re
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.before_request
 def before_request():
@@ -47,9 +56,7 @@ def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
     return render_template('event-page.html', event=ev)
 
-@app.route('/makeevent')
-def make_event():
-    new_event = Event(title="C028 Operation Lawman")
-    db.session.add(new_event)
-    db.session.commit()
-    return redirect('/')
+@login_required
+@app.route('/create')
+def create_event():
+    return render_template('event-create.html')
