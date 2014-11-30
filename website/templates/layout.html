@@ -3,6 +3,8 @@
 	<head>
 		<title>...</title>
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}" type="text/css"/>
+		{% block headtail %}
+		{¢ endblock %}
 	</head>
 
 	<body>
@@ -11,5 +13,6 @@
 	</body>
 
 </html>
+
 {% block tail %}
 {% endblock %}
