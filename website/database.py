@@ -24,7 +24,12 @@ def get_steam_userinfo(steam_id):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     steam_id = db.Column(db.String(48))
+    registration_date = db.Column(db.DateTime,
+        default=db.func.current_timestamp())
+
     nickname = db.String(128)
+
+    # [TODO] track timezone, have a default value.
 
     @staticmethod
     def get_or_create(steam_id):
@@ -38,7 +43,10 @@ class User(db.Model):
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), unique=True)
-    # [TODO] timezone column with default value
+    scheduled_date = db.Column(db.DateTime)
+    creation_date = db.Column(db.DateTime, 
+        default=db.func.current_timestamp())
+
     # [TODO] reference event creator
     # [TODO] reference slots
 
