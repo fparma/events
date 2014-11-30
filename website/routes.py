@@ -60,3 +60,10 @@ def event(evid):
 @login_required
 def create_event():
     return render_template('event-create.html')
+
+@app.before_request
+def create_mock_event():
+    if Event.query.all() == []:
+        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png")
+        db.session.add(new_event)
+        db.session.commit()
