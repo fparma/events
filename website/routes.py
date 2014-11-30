@@ -57,7 +57,6 @@ def event(evid):
     return render_template('event-page.html', event=ev)
 
 @app.route('/create')
-@login_required
 def create_event():
     return render_template('event-create.html')
 
