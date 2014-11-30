@@ -1,10 +1,10 @@
 from flask.ext.sqlalchemy import SQLAlchemy
-from website import app
 from urllib.request import urlopen
 from urllib.parse import urlencode
 import codecs
 import json
 
+from website import app
 from appconf import config
 
 app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
@@ -26,9 +26,14 @@ class User(db.Model):
     steam_id = db.Column(db.String(48))
     registration_date = db.Column(db.DateTime,
         default=db.func.current_timestamp())
-
+    
+    events = db.relationship('Event', 
+            backref=db.backref('creator'))
+    slots = db.relationship('Slot',
+            backref=db.backref('occupant'))
+    
     nickname = db.String(128)
-
+    
     # [TODO] track timezone, have a default value.
 
     @staticmethod
@@ -43,14 +48,15 @@ class User(db.Model):
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), unique=True)
+    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
     scheduled_date = db.Column(db.DateTime)
     creation_date = db.Column(db.DateTime, 
         default=db.func.current_timestamp())
-
-    # [TODO] reference event creator
+    
     # [TODO] reference slots
 
 class Slot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), unique=True)
-    # [TODO] reference user if slot occupied, if no user referenced, slot is free
+    occupant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
