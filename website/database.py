@@ -55,10 +55,14 @@ class Event(db.Model):
     scheduled_date = db.Column(db.DateTime)
     creation_date = db.Column(db.DateTime, 
         default=db.func.current_timestamp())
+
+    slots = db.relationship('Slot', 
+        backref=db.backref('event'))
     
     # [TODO] reference slots
 
 class Slot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32), unique=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
     occupant_id = db.Column(db.Integer, db.ForeignKey('user.id'))

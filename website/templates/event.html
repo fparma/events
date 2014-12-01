@@ -12,7 +12,7 @@
 		</section>
 	</div>
 	<div class="event-slots">
-		{% for role in event.slots %}
+		{% for slot in event.slots %}
 			{% include 'slot.html' %}
 		{% else %}
 			<span class="event-slots-undefined">No defined slots!</div>

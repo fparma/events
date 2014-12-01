@@ -2,7 +2,8 @@ from flask import render_template, session, redirect, flash, url_for, request, g
 from functools import wraps
 
 from website import app, oid
-from website.database import get_steam_userinfo, Event, User, db
+from website.database import get_steam_userinfo, Event, Slot, User, db
+from website.forms import EventForm
 
 import re
 
@@ -63,11 +64,13 @@ def event(evid):
 
 @app.route('/create')
 def create_event():
-    return render_template('event-create.html')
+    form = EventForm()
+    return render_template('event-create.html', form=form)
 
 @app.before_request
 def create_mock_event():
     if Event.query.all() == []:
-        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png")
+        slot1 = Slot(title="Platoon Leader")
+        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png", slots=[slot1])
         db.session.add(new_event)
         db.session.commit()
