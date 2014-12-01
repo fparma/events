@@ -1,90 +1,113 @@
 // Screen
 // ======
-
 @import "compass/utilities/general/clearfix";
 @import "compass/css3/box-shadow";
 @import "grids";
-
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,latin-ext);
-
-$header-color: #2E2E2E;
-$primary-color: #428bca;
-$secondary-color: orange;
-
-body {
-	@include container;
-	font: 300 1.05em / 1.5em "Open Sans", serif;
-	color: $primary-color;
-	background: darken($header-color, 0%);
+ $header-color:#2E2E2E;
+ $primary-color:#428bca;
+ $secondary-color:orange;
+ body {
+    @include container;
+    font: 300 1.05em / 1.5em"Open Sans", serif;
+    color: $primary-color;
+    background: darken($header-color, 0%);
 }
-
 .content {
-	@include container(50%);
-	margin: 0 auto;
+    @include container(50%);
+    margin: 0 auto;
 }
-
 .header {
-	@include clearfix;
-	@include box-shadow(inset 0px 1px -1px lighten($header-color, 10%));
-	padding: 25px;
+    @include clearfix;
+    @include box-shadow(inset 0px 1px -1px lighten($header-color, 10%));
+    padding: 25px;
 }
-
-.event-sm-desc {
-
+.event-sm-desc {} .event-sm-title {
+    font-size: 32px;
+    float: left;
 }
-
-.event-sm-title {
-	font-size : 32px;
-	float: left;
-}
-
 .event-sm-slots {
-	font-weight: 400;
-	float: right;
+    font-weight: 400;
+    float: right;
 }
-
-.event {
-
+.event {} .event-description {
+    header {
+        background: darken($header-color, 4%);
+        font-weight: 400;
+        padding: 10px;
+    }
+    section {
+        background: darken($header-color, 5%);
+        padding: 15px;
+        line-height: 1.5em;
+        font-size: 0.8em;
+        color: darken(white, 15%);
+    }
 }
-
-.event-description {
-
-	header {
-		background: darken($header-color, 4%);
-		font-weight: 400;
-		padding: 10px;
-	}
-
-	section {
-		background: darken($header-color, 5%);
-		padding: 15px;
-		line-height: 1.5em;
-		font-size: 0.8em;
-		color: darken(white, 15%);
-	}
-}
-
 .event-image {
-	
-	img {
-		width: 100%;
-		height: auto;
-	}
-
+    img {
+        width: 100%;
+        height: auto;
+    }
 }
-
-.event-title {
-	
+.event-title {} .event-slots {
+    padding: 25px;
 }
-
-.event-slots {
-	padding: 25px;
+.event-slots-undefined {} .event-slot {}[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
 }
-
-.event-slots-undefined {
-	
-}
-
-.event-slot {
-	
+.event-creation {
+    .create-header {
+        text-align: center
+    }
+    .mission-image-upload {
+        margin-top: 1em;
+        input {
+            margin-left: 1em;
+        }
+    }
+    .mission-desc {
+        height: 10em;
+        width: 100%
+    }
+    .mission-select-sides {
+        font-size: 60%;
+        color: floralwhite;
+    }
+    .mission-sides-container {
+        width: 100%;
+        clear: left
+    }
+    .side-display-name {
+        margin-bottom: 0px
+    }
+    .side-groups-container {
+        margin-top: 1em
+    }
+    .single-group {
+        float: left;
+        margin-right: 1.2em;
+        min-height: 12em;
+        .add-remove-units-container {
+            padding-top: .2em;
+            .left {
+                float: left;
+            }
+            .right {
+                float: right;
+            }
+        }
+    }
+    .single-unit-input {
+        display: block;
+    }
+    .event-submit-container {
+        clear: both;
+        padding-top: 2em;
+    }
 }
