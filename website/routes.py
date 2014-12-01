@@ -64,6 +64,7 @@ def event(evid):
 def create_event():
     if request.method == 'POST':
         event_json = request.json
+        redirect(url_for('index'))
     elif request.method == 'GET':
         return render_template('event-create.html')
 
