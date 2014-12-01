@@ -1,0 +1,10 @@
+<div class="event-side">
+	<h2>{{ side.title }}</h2>
+	{% for group in side.groups %}
+		{% include 'group.html' %}
+	{% else %}
+		<span class="event-side-undefined">
+			No groups defined!
+		</span>
+	{% endfor %}
+</div>

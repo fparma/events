@@ -70,9 +70,9 @@ def create_event():
 @app.before_request
 def create_mock_event():
     if Event.query.all() == []:
-        side = Side(title="West")
         slot = Slot(title="Platoon Leader")
         group = Group(title="Lawman One", slots=[slot])
-        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png", groups=[group])
+        side = Side(title="West", groups=[group])
+        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png", sides=[side])
         db.session.add(new_event)
         db.session.commit()

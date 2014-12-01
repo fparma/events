@@ -62,8 +62,8 @@ class Event(db.Model):
     creation_date = db.Column(db.DateTime, 
         default=db.func.current_timestamp())
 
-    groups = db.relationship('Group',
-        backref=db.backref('event'))
+    sides = db.relationship('Side',
+        backref=db.backref('side'))
 
 class Slot(db.Model):
 
@@ -91,7 +91,8 @@ class Side(db.Model):
     __tablename__ = "side"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(16), unique=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    title = db.Column(db.String(16))
     
     groups = db.relationship('Group',
         backref=db.backref('side'))
