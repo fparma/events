@@ -55,7 +55,8 @@ def create_or_login(resp):
 @app.route('/')
 def index():
     coming_events = Event.query.all()
-    return render_template('index.html', events=coming_events)
+    slot_count = len(coming_events.slots)
+    return render_template('index.html', events=coming_events, count=slot_count)
 
 @app.route('/<evid>')
 def event(evid):
