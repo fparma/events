@@ -20,7 +20,7 @@ angular.module('fpEvents.create', [])
                     name: 'TvT'
                     }
                 ];
-            $scope.missionType = $scope.selectableMissionsTypes[0];
+            $scope.eventType = $scope.selectableMissionsTypes[0];
 
 
     }]).directive('numbersOnly', function () {
@@ -65,6 +65,7 @@ angular.module('fpEvents.slots', [])
             }
             resetSides();
 
+            // helper array to keep the map ordered
             $scope.orderedSides = [
                 {
                     getGroups: function () {
@@ -98,25 +99,21 @@ angular.module('fpEvents.slots', [])
 
             $scope.editManually = function () {
                 resetSides();
-                $scope.addSide('west');
+                $scope.addNewGroup('west');
             };
 
             $scope.updateSideSelection = function (e, side) {
                 var isAdd = e.target.checked;
                 if (isAdd) {
-                    $scope.addSide(side);
+                    $scope.addNewGroup(side);
                 } else {
                     //remove
                     $scope.sideSlots[side] = [];
                 }
             };
 
-            $scope.addSide = function (side) {
-                $scope.sideSlots[side].push({
-                    name: 'Group',
-                    side: side,
-                    units: [{}, {}, {}, {}, {}, {}, {}, {}]
-                });
+            $scope.anySideHaveUnits = function () {
+                return ['west', 'east', 'guer', 'civ'].some($scope.sideHasUnits);
             };
 
             $scope.sideHasUnits = function (side) {
@@ -150,4 +147,15 @@ angular.module('fpEvents.slots', [])
                 return group.units.splice(group.length - 1, 1);
             };
 
-        }]);
+            $scope.checkValidAndSubmit = function () {
+                var data = angular.toJson({
+                    eventType: $scope.eventType.name,
+                    eventSlotsNumber: parseInt($scope.eventSlots, 10),
+                    eventName: $scope.eventName,
+                    eventNameFull: $scope.eventType.name + $scope.eventSlots + ' - ' + $scope.eventName,
+                    eventDescription: $scope.eventDescription,
+                    eventSlots: $scope.sideSlots
+                });
+                alert(JSON.stringify(JSON.parse(data), null, 4));
+            };
+    }]);

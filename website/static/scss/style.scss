@@ -76,7 +76,8 @@
         width: 100%
     }
     .mission-select-sides {
-        font-size: 50%
+        font-size: 60%;
+        color: floralwhite;
     }
     .mission-sides-container {
         width: 100%;
@@ -91,8 +92,22 @@
     .single-group {
         float: left;
         margin-right: 1.2em;
+        min-height: 12em;
+        .add-remove-units-container {
+            padding-top: .2em;
+            .left {
+                float: left;
+            }
+            .right {
+                float: right;
+            }
+        }
     }
     .single-unit-input {
         display: block;
+    }
+    .event-submit-container {
+        clear: both;
+        padding-top: 2em;
     }
 }
