@@ -12,8 +12,8 @@
 		</section>
 	</div>
 	<div class="event-slots">
-		{% for slot in event.slots %}
-			{% include 'slot.html' %}
+		{% for group in event.groups %}
+			{% include 'group.html' %}
 		{% else %}
 			<span class="event-slots-undefined">No defined slots!</div>
 		{% endfor %}

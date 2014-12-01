@@ -22,6 +22,9 @@ def get_steam_userinfo(steam_id):
     return rv['response']['players']['player'][0] or {}
 
 class User(db.Model):
+
+    __tablename__ = "user"
+
     id = db.Column(db.Integer, primary_key=True)
     steam_id = db.Column(db.String(48))
     registration_date = db.Column(db.DateTime,
@@ -46,6 +49,9 @@ class User(db.Model):
         return rv
 
 class Event(db.Model):
+
+    __tablename__ = "event"
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), unique=True)
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -56,13 +62,36 @@ class Event(db.Model):
     creation_date = db.Column(db.DateTime, 
         default=db.func.current_timestamp())
 
-    slots = db.relationship('Slot', 
+    groups = db.relationship('Group',
         backref=db.backref('event'))
-    
-    # [TODO] reference slots
 
 class Slot(db.Model):
+
+    __tablename__ = "slot"
+
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(32), unique=True)
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    title = db.Column(db.String(32))
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     occupant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+class Group(db.Model):
+
+    __tablename__ = "group"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(32))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+    side_id = db.Column(db.Integer, db.ForeignKey('side.id')) 
+    
+    slots = db.relationship('Slot',
+        backref=db.backref('group'))
+
+class Side(db.Model):
+
+    __tablename__ = "side"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(16), unique=True)
+    
+    groups = db.relationship('Group',
+        backref=db.backref('side'))

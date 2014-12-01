@@ -1,10 +1,8 @@
-from flask import render_template, session, redirect, flash, url_for, request, g
+from flask import render_template, session, redirect, flash, url_for, request, json, g
 from functools import wraps
 
 from website import app, oid
-from website.database import get_steam_userinfo, Event, Slot, User, db
-from website.forms import EventForm
-
+from website.database import get_steam_userinfo, Event, Slot, Side, Group, User, db
 import re
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
@@ -55,23 +53,26 @@ def create_or_login(resp):
 @app.route('/')
 def index():
     coming_events = Event.query.all()
-    slot_count = len(coming_events.slots)
-    return render_template('index.html', events=coming_events, count=slot_count)
+    return render_template('index.html', events=coming_events)
 
 @app.route('/<evid>')
 def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
     return render_template('event-page.html', event=ev)
 
-@app.route('/create')
+@app.route('/create', methods=['GET','POST'])
 def create_event():
-    form = EventForm()
-    return render_template('event-create.html', form=form)
+    if request.method == 'POST':
+        event_json = request.json
+    elif request.method == 'GET':
+        return render_template('event-create.html')
 
 @app.before_request
 def create_mock_event():
     if Event.query.all() == []:
-        slot1 = Slot(title="Platoon Leader")
-        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png", slots=[slot1])
+        side = Side(title="West")
+        slot = Slot(title="Platoon Leader")
+        group = Group(title="Lawman One", slots=[slot])
+        new_event = Event(title="C025 - The Bog", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png", groups=[group])
         db.session.add(new_event)
         db.session.commit()
