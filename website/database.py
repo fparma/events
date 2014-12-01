@@ -57,6 +57,7 @@ class Event(db.Model):
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     description = db.Column(db.Text)
     image_url = db.Column(db.String(256))
+    event_type = db.Column(db.String(16))
     
     scheduled_date = db.Column(db.DateTime)
     creation_date = db.Column(db.DateTime, 
