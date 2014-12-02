@@ -1,4 +1,4 @@
-from flask import render_template, session, redirect, flash, url_for, request, json, g
+from flask import send_from_directory, render_template, session, redirect, flash, url_for, request, json, g
 from functools import wraps
 
 from website import app, oid
@@ -60,7 +60,7 @@ def create_or_login(resp):
 
 @app.route('/')
 def index():
-    coming_events = Event.query.all()
+    coming_events = Event.query.order_by(Event.scheduled_date).all()
     return render_template('index.html', events=coming_events)
 
 @app.route('/<evid>')
@@ -68,15 +68,24 @@ def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
     return render_template('event-page.html', event=ev)
 
+@login_required
 @app.route('/create', methods=['GET','POST'])
 def create_event():
     if request.method == 'POST':
+        new_event = Event()
         event_json = request.get_json()
         print(event_json)
+        new_event.creator = g.user
+        new_event.title = event_json['eventNameFull']
+        new_event.description = event_json['eventDescription']
+        new_event.slot_count = event_json['eventSlotsNumber']
+        db.session.add(new_event)
+        db.session.commit()
         return redirect(url_for('index'), code=302)
     elif request.method == 'GET':
         return render_template('event-create.html')
 
+@login_required
 @app.route('/upload', methods=['POST'])
 def upload_file():
     '''Takes a file by POST, returns the absolute URL to the uploaded file.'''
@@ -89,7 +98,7 @@ def upload_file():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
 
 @app.before_request
 def create_mock_event():

@@ -62,6 +62,7 @@ class Event(db.Model):
     description = db.Column(db.Text)
     image_url = db.Column(db.String(256))
     event_type = db.Column(db.String(16))
+    slot_count = db.Column(db.Integer)
     
     scheduled_date = db.Column(db.DateTime)
     creation_date = db.Column(db.DateTime, 
