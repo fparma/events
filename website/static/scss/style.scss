@@ -23,6 +23,7 @@ body {
 a {
 
 	color: darken(white, 10%);
+	text-decoration: none;
 
 	@include transition(color 0.5s ease-in-out);
 
@@ -44,17 +45,29 @@ a {
 .footer {
 	@include sticky-footer(1em);
 	font-size: 0.8em;
-	float: right;
+	padding: 25px;
+	width: 100%;
+
+	.logout {
+		float: left;
+	}
+
+	.steam {
+		float: right;
+	}
+
 }
 
 .flashes {
 	@include container(50%);
-	margin: 0 auto;
+	padding: 25px;
+	padding-bottom: 0;
 
 	list-style: none;
 	
 	li {
-		background: $secondary-color;
+		background: darken($header-color, 10%);
+		padding: 15px;
 	}
 
 }
