@@ -1,9 +1,11 @@
+from flask.ext.assets import Bundle
 config = {}
 
 # Secret stuff
 config['SECRET_KEY'] = 'wow'
 
 # Server name
+config['DEBUG'] = True
 config['SERVER_NAME'] = 'localhost:5000'
 config['PREFERRED_URL_SCHEME'] = 'http'
 
@@ -21,4 +23,11 @@ config['UPLOAD_FOLDER'] = 'uploads'
 config['ALLOWED_EXTENSIONS'] = set(['jpg', 'jpeg', 'png', 'gif'])
 
 # Minification
-config['ASSETS_DEBUG'] = True
+config['ASSETS_DEBUG'] = False
+
+config['BUNDLES'] = {
+	'js_all':Bundle(
+		'js/event-create/event-create.js',
+		filters='js_min',
+		output='event-create.min.js')
+}
