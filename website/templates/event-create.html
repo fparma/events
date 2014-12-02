@@ -52,7 +52,10 @@
     </div>
 </div>
 
-{% endblock %} {% block tail %}
-<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js "></script>
-<script src="{{ url_for('static', filename='js/event-create/event-create.js')}}"></script>
+{% endblock %} 
+{% block tail %}
+	{% assets "js_all" %}
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js "></script>
+		<script src="{{ ASSET_URL }}"></script>
+	{% endassets %}
 {% endblock %}

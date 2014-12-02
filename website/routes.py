@@ -71,7 +71,8 @@ def event(evid):
 @app.route('/create', methods=['GET','POST'])
 def create_event():
     if request.method == 'POST':
-        event_json = request.json
+        event_json = request.get_json()
+        print(event_json)
         return redirect(url_for('index'), code=302)
     elif request.method == 'GET':
         return render_template('event-create.html')
