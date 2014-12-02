@@ -72,9 +72,9 @@ def event(evid):
 @app.route('/create', methods=['GET','POST'])
 def create_event():
     if request.method == 'POST':
-        new_event = Event()
         event_json = request.get_json()
-        print(event_json)
+        
+        new_event = Event()
         new_event.creator = g.user
         new_event.title = event_json.get('eventNameFull')
         new_event.image_url = event_json.get('eventImageUrl')
