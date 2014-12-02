@@ -74,6 +74,7 @@ class Slot(db.Model):
     title = db.Column(db.String(32))
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     occupant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment = db.Column(db.String(db.String(256))
 
 class Group(db.Model):
 
