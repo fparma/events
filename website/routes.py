@@ -89,12 +89,23 @@ def create_event():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     '''Takes a file by POST, returns the absolute URL to the uploaded file.'''
+
+    def filename_exists(path, fname):
+        if os.path.exists(os.path.join(path, fname)):
+            fn, ext = os.path.splitext(fname)
+            new_fn = fn + "1" + ext
+            return filename_exists(path, new_fn)
+        else:
+            return fname
+
+
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return url_for('uploaded_file', filename=filename, _external=True)
+            new_filename = filename_exists(app.config['UPLOAD_FOLDER'], filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
+            return url_for('uploaded_file', filename=new_filename, _external=True)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
