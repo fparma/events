@@ -15,6 +15,7 @@ Requirements
   * Susy
 * Python >= 3.3
   * Flask
+	* Flask-Assets
     * Flask-OpenID
     * Flask-SQLAlchemy
 
