@@ -47,10 +47,10 @@ a {
 }
 
 .footer {
+	@include container(50%);
 	@include sticky-footer(1em);
 	font-size: 0.8em;
 	padding: 25px;
-	width: 100%;
 
 	.logout {
 		float: left;
