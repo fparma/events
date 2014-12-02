@@ -47,10 +47,11 @@ def login():
 @oid.after_login
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
-    if Ban.query.filter_by(steam_id=match.group(1)).first() is not None:
+    steam_id = match.group(1)
+    if Ban.query.filter_by(steam_id=steam_id).first() is not None:
         flash('Your SteamID is banned.')
         return redirect(url_for('index'))
-    g.user = User.get_or_create(match.group(1))
+    g.user = User.get_or_create(steam_id)
     steamdata = get_steam_userinfo(g.user.steam_id)
     g.user.nickname = steamdata['personaname']
     db.session.commit()
