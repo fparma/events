@@ -32,7 +32,13 @@ a {
 }
 
 .login {
-	float: right;
+	@include clearfix;
+	margin-top: 25px;
+
+	a {
+		float: right;
+	}
+
 }
 
 .footer {
@@ -55,12 +61,11 @@ a {
 
 .content {
     @include container(50%);
-    margin: 0 auto;
 }
 
 .header {
-    @include clearfix;
     @include box-shadow(inset 0px 1px -1px lighten($header-color, 10%));
+    @include clearfix;
     padding: 25px;
 }
 
