@@ -17,6 +17,16 @@ body {
     background: darken($header-color, 0%);
 }
 
+.flashes {
+	@include container(50%);
+	margin: 0 auto;
+	
+	li {
+		background: $secondary-color;
+	}
+
+}
+
 .content {
     @include container(50%);
     margin: 0 auto;

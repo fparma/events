@@ -41,7 +41,8 @@ def login():
 @oid.after_login
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
-    if Ban.query.filter_by(steam_id=match.group(1)) is not None:
+    if Ban.query.filter_by(steam_id=match.group(1)).first() is not None:
+        flash('Your SteamID is banned.')
         return redirect(url_for('index'))
     g.user = User.get_or_create(match.group(1))
     steamdata = get_steam_userinfo(g.user.steam_id)
@@ -65,7 +66,7 @@ def event(evid):
 def create_event():
     if request.method == 'POST':
         event_json = request.json
-        redirect(url_for('index'))
+        return redirect(url_for('index'))
     elif request.method == 'GET':
         return render_template('event-create.html')
 
