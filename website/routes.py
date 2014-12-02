@@ -76,9 +76,26 @@ def create_event():
         event_json = request.get_json()
         print(event_json)
         new_event.creator = g.user
-        new_event.title = event_json['eventNameFull']
-        new_event.description = event_json['eventDescription']
-        new_event.slot_count = event_json['eventSlotsNumber']
+        new_event.title = event_json.get('eventNameFull')
+        new_event.image_url = event_json.get('eventImageUrl')
+        new_event.description = event_json.get('eventDescription')
+        new_event.slot_count = event_json.get('eventSlotsNumber')
+
+        sides = []
+        for side, groups in event_json.get('eventSlots').items():
+            new_side = Side(title=side)
+            new_groups = []
+            
+            for group in groups:
+                new_grp = Group(title=group.get('name'))
+                new_grp.slots = [Slot(title=unit.get('role'), group=new_grp) 
+                        for unit in group.get('units')]
+                new_groups.append(new_grp)
+            
+            new_side.groups = new_groups    
+            sides.append(new_side)
+        
+        new_event.sides = sides
         db.session.add(new_event)
         db.session.commit()
         return redirect(url_for('index'), code=302)
