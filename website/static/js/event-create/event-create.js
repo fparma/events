@@ -52,11 +52,11 @@ angular.module('fpEvents', ['fpEvents.create', 'fpEvents.slots'])
                             'Content-Type': undefined
                         }
                     })
-                        .success(function (response) {
-                            debugger;
+                        .success(function (urlForImage) {
+                            dfd.resolve(urlForImage);
                         })
                         .error(function (e) {
-                            // server is down?
+                            dfd.reject();
                             console.log(e);
                             debugger;
                         });
@@ -101,7 +101,7 @@ angular.module('fpEvents.create', [])
                 var file = $scope.missionImageFile;
                 FileUploadFactory.uploadMissionImage(file)
                     .then(function ok(data) {
-                            debugger;
+                            $scope.missionImageUrl = data;
                         },
                         function error(e) {
                             debugger;
@@ -247,17 +247,24 @@ angular.module('fpEvents.slots', [])
             };
 
             $scope.checkValidAndSubmit = function () {
+                var slots = {};
+                for (var i in $scope.sideSlots) {
+                    if ($scope.sideSlots[i].length) {
+                        slots[i] = $scope.sideSlots[i];
+                    }
+                }
                 var data = angular.toJson({
                     eventType: $scope.eventType.name,
+                    eventImageUrl: $scope.missionImageUrl,
                     eventSlotsNumber: parseInt($scope.eventSlots, 10),
                     eventName: $scope.eventName,
                     eventNameFull: $scope.eventType.name + $scope.eventSlots + ' - ' + $scope.eventName,
                     eventDescription: $scope.eventDescription,
-                    eventSlots: $scope.sideSlots
+                    eventSlots: slots
                 });
 
                 $http({
-                    url: 'http://127.0.0.1:5000/create',
+                    url: '/create',
                     method: 'POST',
                     data: data,
                     headers: {

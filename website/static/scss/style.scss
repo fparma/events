@@ -166,6 +166,15 @@ a {
             margin-left: 1em;
         }
     }
+    .mission-image{
+        img {
+            width: inherit;
+            max-width: 100%;
+            height: auto;
+            margin-top: 1em;
+
+        }
+    }
 
     .mission-desc {
         height: 10em;
