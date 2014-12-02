@@ -12,6 +12,10 @@ $header-color:#2E2E2E;
 $primary-color:#428bca;
 $secondary-color:orange;
 
+html {
+	overflow: auto;
+}
+
 body {
     @include container;
 	@include clearfix;
