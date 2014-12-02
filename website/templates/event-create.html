@@ -18,7 +18,8 @@
         <div ng-controller="slotsCtrl">
             <h2>Slots</h2>
             <button type="button" ng-click="editManually()">Edit manually</button>
-            <button type="button" disabled>Upload SQM file</button>
+            <input type="file" file-model="sqmFile" />
+            <button type="button" ng-click="uploadSQMFile()">Upload SQM file</button>
             <div ng-show="anySideHaveUnits()">
                 <span>Sides:</span>
 
@@ -39,7 +40,7 @@
                                 <button class="left" ng-click="removeUnitFromGroup(group)" ng-disabled="group.units.length <= 1">-</button>
                                 <button class="right" ng-click="deleteGroup(side.sideName, $index)">x</button>
                             </div>
-                            <input type="text" class="single-unit-input" ng-model="unit.role" ng-repeat="unit in group.units" placeholder="Unit [[$index+1]] description">
+                            <input type="text" class="single-unit-input" ng-model="unit.role" ng-repeat="unit in group.units" placeholder="Unit [[$index+1]] description" value="[[unit.role]]">
                         </div>
                     </div>
                 </div>

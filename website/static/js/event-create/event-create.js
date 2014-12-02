@@ -1,11 +1,48 @@
 /*global angular: false*/
 
 angular.module('fpEvents', ['fpEvents.create', 'fpEvents.slots'])
-    .config(function ($interpolateProvider) {
-        $interpolateProvider.startSymbol('[[');
-        $interpolateProvider.endSymbol(']]');
-    });
+    .config(['$interpolateProvider', '$httpProvider',
+        function ($interpolateProvider, $httpProvider) {
+            $interpolateProvider.startSymbol('[[');
+            $interpolateProvider.endSymbol(']]');
+            delete $httpProvider.defaults.headers.common["X-Requested-With"];
+    }]).filter('capitalize', function () {
+        return function (input) {
+            return (!!input) ? input.replace(/([^\W_]+[^\s-]*) */g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }) : '';
+        };
+    }).factory('FileUploadFactory', ['$http', '$q', '$location',
+        function ($http, $q, $location) {
+            return {
+                getPlayableUnitsFromFile: function (file) {
+                    /*global FormData: false*/
 
+                    var dfd = $q.defer();
+                    var fd = new FormData();
+                    fd.append('sqmFile', file);
+                    $http.post('http://' + $location.host() + ':8080/api/parse-sqm-file', fd, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    })
+                        .success(function (response) {
+                            if (response.data) {
+                                dfd.resolve(response.data);
+                            } else {
+                                // failed to parse
+                                dfd.reject(response.error);
+                            }
+                        })
+                        .error(function (e) {
+                            // server is down?
+                            console.log(e);
+                        });
+                    return dfd.promise;
+                }
+            };
+    }]);
 
 angular.module('fpEvents.create', [])
     .controller('eventsCtrl', ['$scope',
@@ -52,8 +89,8 @@ angular.module('fpEvents.create', [])
 
 
 angular.module('fpEvents.slots', [])
-    .controller('slotsCtrl', ['$scope', '$http', '$window', '$location',
-            function ($scope, $http, $window, $location) {
+    .controller('slotsCtrl', ['$scope', '$http', '$window', '$location', '$timeout', 'FileUploadFactory',
+            function ($scope, $http, $window, $location, $timeout, FileUploadFactory) {
 
             function resetSides() {
                 $scope.sideSlots = {
@@ -147,6 +184,19 @@ angular.module('fpEvents.slots', [])
                 return group.units.splice(group.length - 1, 1);
             };
 
+            $scope.uploadSQMFile = function () {
+                var file = $scope.sqmFile;
+                FileUploadFactory.getPlayableUnitsFromFile(file)
+                    .then(function ok(data) {
+                            $timeout(function () {
+                                $scope.sideSlots = data;
+                            }, 0);
+                        },
+                        function error(e) {
+                            debugger;
+                        });
+            };
+
             $scope.checkValidAndSubmit = function () {
                 var data = angular.toJson({
                     eventType: $scope.eventType.name,
@@ -159,7 +209,7 @@ angular.module('fpEvents.slots', [])
 
                 $http({
                     url: 'http://127.0.0.1:5000/create',
-                    method: "POST",
+                    method: 'POST',
                     data: data,
                     headers: {
                         'Content-Type': 'application/json'
@@ -168,6 +218,7 @@ angular.module('fpEvents.slots', [])
                     .success(function (data, status, headers, config) {
                         console.log('success');
                         console.log(data);
+                        //redirect
                         $window.location.href = ('http://' + $location.host() + ':' + $location.port());
                     })
                     .error(function (data, status, headers, config) {
@@ -175,4 +226,19 @@ angular.module('fpEvents.slots', [])
                         console.log(data);
                     });
             };
-    }]);
+}]).directive('fileModel', ['$parse',
+        function ($parse) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function () {
+                        scope.$apply(function () {
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+}]);
