@@ -2,8 +2,14 @@ from flask import render_template, session, redirect, flash, url_for, request, j
 from functools import wraps
 
 from website import app, oid
+from werkzeug import secure_filename
 from website.database import get_steam_userinfo, Ban, Event, Slot, Side, Group, User, db
+import os
 import re
+
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 
@@ -69,6 +75,20 @@ def create_event():
         return redirect(url_for('index'), code=302)
     elif request.method == 'GET':
         return render_template('event-create.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    '''Takes a file by POST, returns the absolute URL to the uploaded file.'''
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return url_for('uploaded_file', filename=filename, _external=True)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.before_request
 def create_mock_event():

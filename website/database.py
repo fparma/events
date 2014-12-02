@@ -5,9 +5,7 @@ import codecs
 import json
 
 from website import app
-from appconf import config
 
-app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
 db = SQLAlchemy(app)
 
 def get_steam_userinfo(steam_id):

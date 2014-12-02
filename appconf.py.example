@@ -3,6 +3,10 @@ config = {}
 # Secret stuff
 config['SECRET_KEY'] = 'wow'
 
+# Server name
+config['SERVER_NAME'] = 'localhost:5000'
+config['PREFERRED_URL_SCHEME'] = 'http'
+
 #OpenID config
 config['OPENID_STORE'] = '/tmp/such'
 
@@ -11,3 +15,7 @@ config['STEAM_API_KEY'] = 'key'
 
 # Database config
 config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/verylite.db'
+
+# Upload handling
+config['UPLOAD_FOLDER'] = '/upload'
+config['ALLOWED_EXTENSIONS'] = set(['jpg', 'jpeg', 'png', 'gif'])

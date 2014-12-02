@@ -1,2 +1,2 @@
 from website import app
-app.run(debug=True)
+app.run()

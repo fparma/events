@@ -4,10 +4,10 @@ from flask.ext.openid import OpenID
 from appconf import config
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config['SECRET_KEY']
-app.config['STEAM_API_KEY'] = config['STEAM_API_KEY']
 
-oid = OpenID(app, config['OPENID_STORE'], safe_roots=[])
+app.config.update(config)
+
+oid = OpenID(app, app.config['OPENID_STORE'], safe_roots=[])
 
 from website.database import db
 
