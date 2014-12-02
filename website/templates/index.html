@@ -2,6 +2,11 @@
 
 {% block content %}
 <div class="content">
+	<div class="login">
+		{% if not g.user %}
+		<a href="{{ url_for('login')}}"><img src="http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_small.png"/></a>
+		{% endif %}
+	</div>
 	<div class="header">
 		{% for event in events %}
 			{% include 'event.html' %}
@@ -13,6 +18,9 @@
 		{% for event in pastevents %}
 			{% include 'pastevent-small.html' %}
 		{% endfor %}
+	</div>
+	<div class="footer">
+		Powered by Steam. <a href="http://steampowered.com">http://steampowered.com</a>
 	</div>
 </div>
 {% endblock %}

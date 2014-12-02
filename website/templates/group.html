@@ -1,9 +1,9 @@
-<div class="event-group">
+<div class="group">
 	<h3>{{ group.title }}</h3>
 	{% for slot in group.slots %}
 		{% include 'slot.html' %}
 	{% else %}
-		<span class="event-group-undefined">
+		<span class="undefined">
 			No slots defined!
 		</span>
 	{% endfor %}

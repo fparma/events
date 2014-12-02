@@ -3,7 +3,9 @@
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400&subset=latin,latin-ext);
 @import "compass/utilities/general/clearfix";
+@import "compass/layout/sticky-footer";
 @import "compass/css3/box-shadow";
+@import "compass/css3/transition";
 @import "grids";
 
 $header-color:#2E2E2E;
@@ -12,14 +14,38 @@ $secondary-color:orange;
 
 body {
     @include container;
+	@include clearfix;
     font: 300 1.05em / 1.5em"Open Sans", serif;
     color: $primary-color;
     background: darken($header-color, 0%);
 }
 
+a {
+
+	color: darken(white, 10%);
+
+	@include transition(color 0.5s ease-in-out);
+
+	&:hover {
+		color: orange;
+	}
+}
+
+.login {
+	float: right;
+}
+
+.footer {
+	@include sticky-footer(1em);
+	font-size: 0.8em;
+	float: right;
+}
+
 .flashes {
 	@include container(50%);
 	margin: 0 auto;
+
+	list-style: none;
 	
 	li {
 		background: $secondary-color;
@@ -69,7 +95,7 @@ body {
     	}
 	}
 
-	.event-description {
+	.description {
 		header {
 			background: darken($header-color, 4%);
 			font-weight: 400;
