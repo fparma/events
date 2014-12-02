@@ -10,6 +10,7 @@ For config `appconf.py` is used, an example file is provided (`appconf.py.exampl
 Requirements
 ---------------
 * SASS
+  * Breakpoint
   * Compass
   * Susy
 * Python >= 3.3
