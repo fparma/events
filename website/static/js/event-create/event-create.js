@@ -52,8 +52,8 @@ angular.module('fpEvents.create', [])
 
 
 angular.module('fpEvents.slots', [])
-    .controller('slotsCtrl', ['$scope',
-            function ($scope) {
+    .controller('slotsCtrl', ['$scope', '$http', '$window', '$location',
+            function ($scope, $http, $window, $location) {
 
             function resetSides() {
                 $scope.sideSlots = {
@@ -156,6 +156,23 @@ angular.module('fpEvents.slots', [])
                     eventDescription: $scope.eventDescription,
                     eventSlots: $scope.sideSlots
                 });
-                alert(JSON.stringify(JSON.parse(data), null, 4));
+
+                $http({
+                    url: 'http://127.0.0.1:5000/create',
+                    method: "POST",
+                    data: data,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .success(function (data, status, headers, config) {
+                        console.log('success');
+                        console.log(data);
+                        $window.location.href = ('http://' + $location.host() + ':' + $location.port());
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log('error');
+                        console.log(data);
+                    });
             };
     }]);
