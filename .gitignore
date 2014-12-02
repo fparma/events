@@ -14,6 +14,9 @@
 *.css
 *.css.map
 
+#jervaskripte
+*.min.js
+
 #vim swap files
 .*.s??
 
@@ -22,3 +25,6 @@ appconf.py
 
 #upload folder
 /uploads/
+
+#webassets
+.webassets-cache
