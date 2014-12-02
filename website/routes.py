@@ -2,7 +2,7 @@ from flask import render_template, session, redirect, flash, url_for, request, j
 from functools import wraps
 
 from website import app, oid
-from website.database import get_steam_userinfo, Event, Slot, Side, Group, User, db
+from website.database import get_steam_userinfo, Ban, Event, Slot, Side, Group, User, db
 import re
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
@@ -41,8 +41,9 @@ def login():
 @oid.after_login
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
+    if Ban.query.filter_by(steam_id=match.group(1)) is not None:
+        return redirect(url_for('index'))
     g.user = User.get_or_create(match.group(1))
-    print(match.group(1))
     steamdata = get_steam_userinfo(g.user.steam_id)
     g.user.nickname = steamdata['personaname']
     db.session.commit()

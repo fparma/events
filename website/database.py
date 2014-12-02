@@ -21,6 +21,12 @@ def get_steam_userinfo(steam_id):
     rv = json.load(reader(urlopen(url)))
     return rv['response']['players']['player'][0] or {}
 
+class Ban(db.Model):
+    __tablename__ = "ban"
+
+    id = db.Column(db.Integer, primary_key=True)
+    steam_id = db.Column(db.String(48))
+
 class User(db.Model):
 
     __tablename__ = "user"
@@ -74,7 +80,7 @@ class Slot(db.Model):
     title = db.Column(db.String(32))
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
     occupant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    comment = db.Column(db.String(db.String(256))
+    comment = db.Column(db.String(256))
 
 class Group(db.Model):
 
