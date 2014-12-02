@@ -6,13 +6,13 @@
     <input type="text" ng-model="eventSlots" size="2" placeholder="20" numbers-only="numbers-only" />
     <span>-</span>
     <input type="text" size="40" placeholder="Operation Name" ng-model="eventName" />
-    <div class="mission-image-upload" ng-show="!missionImageUrl">
+    <div class="mission-image-upload" ng-show="!eventImageUrl">
         <span>Mission image:</span>
         <input type="file" file-model="missionImageFile" />
         <button type="button" ng-click="uploadMissionImage()">Upload image</button>
     </div>
-    <div class="mission-image" ng-if="missionImageUrl">
-        <img ng-src="[[missionImageUrl]]"></img>
+    <div class="mission-image" ng-if="eventImageUrl">
+        <img ng-src="[[eventImageUrl]]"></img>
     </div>
 
     <div ng-if="eventSlots && eventName">

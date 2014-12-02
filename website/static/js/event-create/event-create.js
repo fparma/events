@@ -101,7 +101,7 @@ angular.module('fpEvents.create', [])
                 var file = $scope.missionImageFile;
                 FileUploadFactory.uploadMissionImage(file)
                     .then(function ok(data) {
-                            $scope.missionImageUrl = data;
+                            $scope.eventImageUrl = data;
                         },
                         function error(e) {
                             debugger;
@@ -255,7 +255,7 @@ angular.module('fpEvents.slots', [])
                 }
                 var data = angular.toJson({
                     eventType: $scope.eventType.name,
-                    eventImageUrl: $scope.missionImageUrl,
+                    eventImageUrl: $scope.eventImageUrl,
                     eventSlotsNumber: parseInt($scope.eventSlots, 10),
                     eventName: $scope.eventName,
                     eventNameFull: $scope.eventType.name + $scope.eventSlots + ' - ' + $scope.eventName,
