@@ -68,8 +68,8 @@ def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
     return render_template('event-page.html', event=ev)
 
-@login_required
 @app.route('/create', methods=['GET','POST'])
+@login_required
 def create_event():
     if request.method == 'POST':
         event_json = request.get_json()
@@ -102,12 +102,14 @@ def create_event():
     elif request.method == 'GET':
         return render_template('event-create.html')
 
-@login_required
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload_file():
     '''Takes a file by POST, returns the absolute URL to the uploaded file.'''
 
     def filename_exists(path, fname):
+        '''Adds 1 to the end of a filename until it
+        finds one which does not exist'''
         if os.path.exists(os.path.join(path, fname)):
             fn, ext = os.path.splitext(fname)
             new_fn = fn + "1" + ext
