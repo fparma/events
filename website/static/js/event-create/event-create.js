@@ -40,13 +40,50 @@ angular.module('fpEvents', ['fpEvents.create', 'fpEvents.slots'])
                             console.log(e);
                         });
                     return dfd.promise;
+                },
+                uploadMissionImage: function (imageFile) {
+
+                    var dfd = $q.defer();
+                    var fd = new FormData();
+                    fd.append('file', imageFile);
+                    $http.post('/upload', fd, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined
+                        }
+                    })
+                        .success(function (response) {
+                            debugger;
+                        })
+                        .error(function (e) {
+                            // server is down?
+                            console.log(e);
+                            debugger;
+                        });
+                    return dfd.promise;
+
                 }
             };
-    }]);
+    }]).directive('fileModel', ['$parse',
+        function ($parse) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
+                    element.bind('change', function () {
+                        scope.$apply(function () {
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+}]);
 
 angular.module('fpEvents.create', [])
-    .controller('eventsCtrl', ['$scope',
-            function ($scope) {
+    .controller('eventsCtrl', ['$scope', 'FileUploadFactory',
+            function ($scope, FileUploadFactory) {
 
             $scope.selectableMissionsTypes = [
                 {
@@ -58,6 +95,18 @@ angular.module('fpEvents.create', [])
                     }
                 ];
             $scope.eventType = $scope.selectableMissionsTypes[0];
+
+
+            $scope.uploadMissionImage = function () {
+                var file = $scope.missionImageFile;
+                FileUploadFactory.uploadMissionImage(file)
+                    .then(function ok(data) {
+                            debugger;
+                        },
+                        function error(e) {
+                            debugger;
+                        });
+            };
 
 
     }]).directive('numbersOnly', function () {
@@ -225,20 +274,5 @@ angular.module('fpEvents.slots', [])
                         console.log('error');
                         console.log(data);
                     });
-            };
-}]).directive('fileModel', ['$parse',
-        function ($parse) {
-            return {
-                restrict: 'A',
-                link: function (scope, element, attrs) {
-                    var model = $parse(attrs.fileModel);
-                    var modelSetter = model.assign;
-
-                    element.bind('change', function () {
-                        scope.$apply(function () {
-                            modelSetter(scope, element[0].files[0]);
-                        });
-                    });
-                }
             };
 }]);

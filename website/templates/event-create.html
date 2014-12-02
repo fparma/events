@@ -8,7 +8,8 @@
     <input type="text" size="40" placeholder="Operation Name" ng-model="eventName" />
     <div class="mission-image-upload">
         <span>Mission image:</span>
-        <input type="file" name="missionImage" />
+        <input type="file" file-model="missionImageFile" />
+        <button type="button" ng-click="uploadMissionImage()">Upload image</button>
     </div>
 
     <div ng-show="eventSlots && eventName">
@@ -52,7 +53,9 @@
     </div>
 </div>
 
-{% endblock %} {% block tail %}
+{% endblock %}
+
+{% block tail %} 
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js "></script>
 <script src="{{ url_for('static', filename='js/event-create/event-create.js')}}"></script>
 {% endblock %}
