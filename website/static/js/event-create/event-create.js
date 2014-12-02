@@ -168,7 +168,6 @@ angular.module('fpEvents.slots', [])
                     .success(function (data, status, headers, config) {
                         console.log('success');
                         console.log(data);
-                    debugger;
                         $window.location.href = ('http://' + $location.host() + ':' + $location.port());
                     })
                     .error(function (data, status, headers, config) {
