@@ -159,7 +159,29 @@ a {
     .create-header {
         text-align: center
     }
-
+    input[type="text"] {
+      margin: 0;
+      font-family: inherit;
+      font-size: 80%;
+      appearance: none;
+      box-shadow: none;
+      border-radius: none;
+    }
+    input[type="text"]:focus {
+      outline: none;
+    }
+    
+    .event-input input[type="text"] {
+      padding: 2px;
+      border: solid 5px #c9c9c9;
+      transition: border 0.3s;
+    }
+    
+    .event-input input[type="text"]:focus,
+    .event-input input[type="text"].focus {
+      border: solid 5px #969696;
+    }
+    
     .mission-image-upload {
         margin-top: 1em;
         input {
@@ -201,7 +223,7 @@ a {
 
     .single-group {
         float: left;
-        margin-right: 1.2em;
+        padding: .2em .2em .6em 0;
         min-height: 12em;
         .add-remove-units-container {
             padding-top: .2em;

@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<title>...</title>
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}" type="text/css"/>
+        {% assets "css_all" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css"/>
+        {% endassets %}
+        
 		{% block headtail %}
 		{% endblock %}
 	</head>

@@ -29,5 +29,10 @@ config['BUNDLES'] = {
 	'js_all':Bundle(
 		'js/event-create/**',
 		filters='jsmin',
-		output='event-create.min.js')
+		output='event-create.min.js'),
+    
+	'css_all':Bundle(
+		'css/style.css',
+		filters='cssmin',
+		output='app.min.css')
 }
