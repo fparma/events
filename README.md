@@ -1,7 +1,7 @@
 events
 ======
 
-Simple site built in flask to display coming events, list past events and allow signup for the coming event, to simplify the process for both event creators and attendees.
+Simple site built in flask + angularjs to display coming events, list past events and allow signup for the coming event, to simplify the process for both event creators and attendees.
 
 Config
 ---------------
