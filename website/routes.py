@@ -113,8 +113,7 @@ def upload_file():
         finds one which does not exist'''
         if os.path.exists(os.path.join(path, fname)):
             fn, ext = os.path.splitext(fname)
-            new_fn = fn + "1" + ext
-            return filename_exists(path, new_fn)
+            return filename_exists(path, fn + "1" + ext)
         else:
             return fname
 
