@@ -246,5 +246,13 @@ a {
         clear: both;
         padding-top: 2em;
     }
+	p.error-message {
+		border: 1px solid red;
+		margin-top:1em;
+		padding:4px 4px 4px 3em;
+		color: #D8000C;
+		background-color: #FFBABA;
+		font-size: 70%;
+	}
 
 }

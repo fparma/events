@@ -97,7 +97,7 @@ angular.module('fpEvents.slots', [])
 			};
 
 			$scope.uploadSQMFile = function () {
-
+				$scope.sqmUploadError = '';
 				var file = $scope.sqmFile;
 				FileUpload.getPlayableUnitsFromFile(file)
 					.then(function ok(data) {
@@ -105,7 +105,7 @@ angular.module('fpEvents.slots', [])
 							$scope.sideSlots = data;
 						}, 0);
 					}, function error(e) {
-						console.log(e);
+						$scope.sqmUploadError = e.message;
 					});
 			};
 
