@@ -16,6 +16,8 @@ Requirements
 * Python >= 3.3
   * Flask
 	* Flask-Assets
+      * jsmin
+	  * cssmin
     * Flask-OpenID
     * Flask-SQLAlchemy
 
