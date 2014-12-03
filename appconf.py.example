@@ -27,7 +27,7 @@ config['ASSETS_DEBUG'] = False
 
 config['BUNDLES'] = {
 	'js_all':Bundle(
-		'js/event-create/event-create.js',
+		'js/event-create/**',
 		filters='jsmin',
 		output='event-create.min.js')
 }
