@@ -3,9 +3,9 @@
 <div class="content event-creation" ng-app="fpEvents" ng-controller="eventsCtrl" ng-cloak>
     <h1 class="create-header">Create an event</h1>
     <select ng-model="eventType" ng-options="m.name for m in selectableMissionsTypes"></select>
-    <input type="text" ng-model="eventSlots" size="2" placeholder="20" numbers-only="numbers-only" />
+    <input type="text" class="event-input" ng-model="eventSlots" size="2" placeholder="20" numbers-only="numbers-only" />
     <span>-</span>
-    <input type="text" size="40" placeholder="Operation Name" ng-model="eventName" />
+    <input type="text" class="event-input" size="40" placeholder="Operation Name" ng-model="eventName" />
     <div class="mission-image-upload" ng-show="!eventImageUrl">
         <span>Mission image:</span>
         <input type="file" file-model="missionImageFile" />
@@ -15,7 +15,7 @@
         <img ng-src="[[eventImageUrl]]"></img>
     </div>
 
-    <div ng-if="eventSlots && eventName">
+    <div ng-if="eventSlots && eventName.length > 2">
         <h2>[[eventType.name]][[eventSlots]] - [[eventName]]</h2>
         <h4>Mission description:</h4>
         <textarea class="mission-desc" ng-model="eventDescription"></textarea>
@@ -24,27 +24,27 @@
             <button type="button" ng-click="editManually()">Edit manually</button>
             <input type="file" file-model="sqmFile" />
             <button type="button" ng-click="uploadSQMFile()">Upload SQM file</button>
-            <div ng-show="anySideHaveUnits()">
+            <div ng-if="anySideHaveUnits()">
                 <span>Sides:</span>
 
                 <span class="mission-select-sides" ng-repeat="side in orderedSides">
-                    <input  type="checkbox" ng-checked="sideHasUnits(side.sideName)" ng-click="updateSideSelection($event, side.sideName)" />
+                    <input type="checkbox" ng-checked="sideHasUnits(side.sideName)" ng-click="updateSideSelection($event, side.sideName)"/>
                     [[side.displayName]]
                 </span>
 
                 <div ng-repeat="side in orderedSides" class="mission-sides-container" ng-show="sideHasUnits(side.sideName)">
                     <p class="side-display-name">[[side.displayName]]</p>
-                    <input type="text" placeholder="Group name" ng-model="newGrpName" />
+                    <input type="text" class="event-input" placeholder="Group name" ng-model="newGrpName" />
                     <button type="button" ng-click="addNewGroup(side.sideName, newGrpName)">Add group</button>
                     <div ng-repeat="group in side.getGroups()" class="side-groups-container">
                         <div class="single-group">
-                            <input type="text" value="[[group.name]]" ng-model="group.name">
+                            <input type="text" class="event-input" ng-model="group.name">
                             <div class="add-remove-units-container">
                                 <button class="left" ng-click="addUnitToGroup(group)" ng-disabled="group.units.length >= 20">+</button>
                                 <button class="left" ng-click="removeUnitFromGroup(group)" ng-disabled="group.units.length <= 1">-</button>
                                 <button class="right" ng-click="deleteGroup(side.sideName, $index)">x</button>
                             </div>
-                            <input type="text" class="single-unit-input" ng-model="unit.role" ng-repeat="unit in group.units" placeholder="Unit [[$index+1]] description" value="[[unit.role]]">
+                            <input type="text" class="single-unit-input event-input" ng-model="unit.role" ng-repeat="unit in group.units" placeholder="Unit [[$index+1]] description" value="[[unit.role]]" />
                         </div>
                     </div>
                 </div>
@@ -56,11 +56,9 @@
     </div>
 </div>
 
-{% endblock %}
+{% endblock %} {% block tail %}
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
 
-{% block tail %} 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular.min.js "></script>
 {% assets "js_all" %}
-    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-{% endassets %}
-{% endblock %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %} {% endblock %}

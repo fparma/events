@@ -1,8 +1,8 @@
 /*global angular: false*/
 
 angular.module('fpEvents.slots', [])
-    .controller('slotsCtrl', ['$scope', '$http', '$timeout', 'FileUploadFactory', 'EventService',
-            function ($scope, $http, $timeout, FileUploadFactory, EventService) {
+    .controller('slotsCtrl', ['$scope', '$http', '$timeout', 'FileUpload', 'EventService',
+            function ($scope, $http, $timeout, FileUpload, EventService) {
 
             function resetSides() {
                 $scope.sideSlots = {
@@ -97,16 +97,16 @@ angular.module('fpEvents.slots', [])
             };
 
             $scope.uploadSQMFile = function () {
+
                 var file = $scope.sqmFile;
-                FileUploadFactory.getPlayableUnitsFromFile(file)
+                FileUpload.getPlayableUnitsFromFile(file)
                     .then(function ok(data) {
-                            $timeout(function () {
-                                $scope.sideSlots = data;
-                            }, 0);
-                        },
-                        function error(e) {
-                            console.log(e);
-                        });
+                        $timeout(function () {
+                            $scope.sideSlots = data;
+                        }, 0);
+                    }, function error(e) {
+                        console.log(e);
+                    });
             };
 
             $scope.checkValidAndSubmit = function () {
@@ -125,7 +125,7 @@ angular.module('fpEvents.slots', [])
                     eventDescription: $scope.eventDescription,
                     eventSlots: slots
                 });
-                
+
                 EventService.createNewEvent(data);
             };
 }]);

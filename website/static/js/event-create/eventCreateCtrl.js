@@ -1,7 +1,7 @@
 /*global angular: false*/
 
 angular.module('fpEvents.create', [])
-    .controller('eventsCtrl', ['$scope', 'FileUploadFactory',
+    .controller('eventsCtrl', ['$scope', 'FileUpload',
             function ($scope, FileUploadFactory) {
 
             $scope.selectableMissionsTypes = [
