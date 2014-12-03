@@ -1,10 +1,12 @@
+{% import '_default.html' as def %}
+
 <!doctype html>
 <html>
 	<head>
-		<title>...</title>
-        {% assets "css_all" %}
-        <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css"/>
-        {% endassets %}
+		<title>{% block title %} {{def.title}} {% endblock %}</title>
+		{% assets "css_all" %}
+		<link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css"/>
+		{% endassets %}
         
 		{% block headtail %}
 		{% endblock %}
