@@ -33,6 +33,8 @@ class User(db.Model):
     steam_id = db.Column(db.String(48))
     registration_date = db.Column(db.DateTime,
         default=db.func.current_timestamp())
+
+    is_admin = db.Column(db.Boolean, default=True)
     
     events = db.relationship('Event', 
             backref=db.backref('creator'))

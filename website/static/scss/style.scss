@@ -36,11 +36,17 @@ a {
 	}
 }
 
-.login {
+.topbar {
+
 	@include clearfix;
 	margin-top: 25px;
+	width: 100%;
 
-	a {
+	.create {
+		float: left;
+	}
+
+	.login {
 		float: right;
 	}
 

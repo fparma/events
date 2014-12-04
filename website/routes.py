@@ -14,6 +14,15 @@ def allowed_file(filename):
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not g.user.is_admin:
+            flash('You need admin privileges to access this area.')
+            return redirect(url_for('index', next=request.url))
+        return f(*args,**kwargs)
+    return decorated_function
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -72,6 +81,7 @@ def event(evid):
 
 @app.route('/create', methods=['GET', 'PUT', 'POST'])
 @login_required
+@admin_required
 def create_event():
     if request.method in ['PUT','POST']:
         event_json = request.get_json()
@@ -113,6 +123,7 @@ def create_event():
 
 @app.route('/upload', methods=['POST'])
 @login_required
+@admin_required
 def upload_file():
     '''Takes a file by POST, returns the absolute URL to the uploaded file.'''
 
