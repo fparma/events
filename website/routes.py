@@ -3,6 +3,7 @@ from functools import wraps
 
 from website import app, oid
 from werkzeug import secure_filename
+from werkzeug.exceptions import BadRequest
 from website.database import get_steam_userinfo, Ban, Event, Slot, Side, Group, User, db
 import os
 import re
@@ -69,13 +70,20 @@ def event(evid):
     ev = Event.query.filter_by(id=evid).first_or_404()
     return render_template('event-page.html', event=ev)
 
-@app.route('/create', methods=['GET','POST'])
+@app.route('/create', methods=['GET', 'PUT', 'POST'])
 @login_required
 def create_event():
-    if request.method == 'POST':
+    if request.method in ['PUT','POST']:
         event_json = request.get_json()
-        
+       
+        if event_json is None:
+            raise BadRequest(description="Invalid JSON!")
+
         new_event = Event()
+        #if request.method == 'POST':
+        #    event_id = event_json.get('eventId')
+        #    new_event = Event.query.filter_by(id=event_id).first()
+
         new_event.creator = g.user
         new_event.title = event_json.get('eventNameFull')
         new_event.image_url = event_json.get('eventImageUrl')
