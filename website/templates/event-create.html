@@ -24,6 +24,7 @@
 			<button type="button" ng-click="editManually()">Edit manually</button>
 			<input type="file" file-model="sqmFile" />
 			<button type="button" ng-click="uploadSQMFile()">Upload SQM file</button>
+			<p ng-if="sqmUploadError" class="error-message">[[sqmUploadError]]</p>
 			<div ng-if="anySideHaveUnits()">
 				<span>Sides:</span>
 
