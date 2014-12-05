@@ -1,12 +1,12 @@
 from flask import send_from_directory, render_template, session, redirect, flash, url_for, request, json, g
-from functools import wraps
 
 from website import app, oid
 from werkzeug import secure_filename
 from werkzeug.exceptions import BadRequest
 from website.database import get_steam_userinfo, Ban, Event, Slot, Side, Group, User, db
-import os
-import re
+
+from functools import wraps
+import os, re
 
 def allowed_file(filename):
     return '.' in filename and \

@@ -1,10 +1,9 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from urllib.request import urlopen
 from urllib.parse import urlencode
-import codecs
-import json
 
 from website import app
+import codecs, json
 
 db = SQLAlchemy(app)
 
