@@ -58,7 +58,7 @@ def login():
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
     steam_id = match.group(1)
-    if Ban.query.filter_by(steam_id=steam_id).first() is not None:
+    if Ban.query.get(steam_id) is not None:
         flash('Your SteamID is banned.')
         return redirect(url_for('index'))
     g.user = User.get_or_create(steam_id)
@@ -76,7 +76,7 @@ def index():
 
 @app.route('/<evid>')
 def event(evid):
-    ev = Event.query.filter_by(id=evid).first_or_404()
+    ev = Event.query.get_or_404(evid)
     return render_template('event-page.html', event=ev)
 
 @app.route('/create', methods=['GET', 'PUT', 'POST'])
