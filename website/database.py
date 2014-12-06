@@ -5,6 +5,7 @@ from urllib.parse import urlencode
 from website import app
 import codecs, json
 
+
 db = SQLAlchemy(app)
 
 def get_steam_userinfo(steam_id):
@@ -18,13 +19,20 @@ def get_steam_userinfo(steam_id):
     rv = json.load(reader(urlopen(url)))
     return rv['response']['players']['player'][0] or {}
 
+
+class Serializable():
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
 class Ban(db.Model):
     __tablename__ = "ban"
 
     id = db.Column(db.Integer, primary_key=True)
     steam_id = db.Column(db.String(48))
 
-class User(db.Model):
+
+class User(db.Model, Serializable):
 
     __tablename__ = "user"
 
@@ -34,14 +42,14 @@ class User(db.Model):
         default=db.func.current_timestamp())
 
     is_admin = db.Column(db.Boolean, default=True)
-    
-    events = db.relationship('Event', 
+
+    events = db.relationship('Event',
             backref=db.backref('creator'))
     slots = db.relationship('Slot',
             backref=db.backref('occupant'))
-    
+
     nickname = db.String(128)
-    
+
     # [TODO] track timezone, have a default value.
 
     @staticmethod
@@ -53,7 +61,8 @@ class User(db.Model):
             db.session.add(rv)
         return rv
 
-class Event(db.Model):
+
+class Event(db.Model, Serializable):
 
     __tablename__ = "event"
 
@@ -64,15 +73,16 @@ class Event(db.Model):
     image_url = db.Column(db.String(256))
     event_type = db.Column(db.String(16))
     slot_count = db.Column(db.Integer)
-    
+
     scheduled_date = db.Column(db.DateTime)
-    creation_date = db.Column(db.DateTime, 
+    creation_date = db.Column(db.DateTime,
         default=db.func.current_timestamp())
 
     sides = db.relationship('Side',
         backref=db.backref('side'))
 
-class Slot(db.Model):
+
+class Slot(db.Model, Serializable):
 
     __tablename__ = "slot"
 
@@ -82,25 +92,27 @@ class Slot(db.Model):
     occupant_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comment = db.Column(db.String(256))
 
-class Group(db.Model):
+
+class Group(db.Model, Serializable):
 
     __tablename__ = "group"
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(32))
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
-    side_id = db.Column(db.Integer, db.ForeignKey('side.id')) 
-    
+    side_id = db.Column(db.Integer, db.ForeignKey('side.id'))
+
     slots = db.relationship('Slot',
         backref=db.backref('group'))
 
-class Side(db.Model):
+
+class Side(db.Model, Serializable):
 
     __tablename__ = "side"
 
     id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
     title = db.Column(db.String(16))
-    
+
     groups = db.relationship('Group',
         backref=db.backref('side'))

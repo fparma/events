@@ -6,13 +6,16 @@ from werkzeug.exceptions import BadRequest
 from website.database import get_steam_userinfo, Ban, Event, Slot, Side, Group, User, db
 
 from functools import wraps
-import os, re
+import os, re, json as pjson
+
+
+_steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
+
 
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
 
-_steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 
 def admin_required(f):
     @wraps(f)
@@ -20,8 +23,9 @@ def admin_required(f):
         if not g.user.is_admin:
             flash('You need admin privileges to access this area.')
             return redirect(url_for('index', next=request.url))
-        return f(*args,**kwargs)
+        return f(*args, **kwargs)
     return decorated_function
+
 
 def login_required(f):
     @wraps(f)
@@ -31,10 +35,12 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+
 @app.after_request
 def add_header(response):
     response.cache_control.max_age = 300
     return response
+
 
 @app.before_request
 def before_request():
@@ -42,10 +48,12 @@ def before_request():
     if 'user_id' in session:
         g.user = User.query.get(session['user_id'])
 
+
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     return redirect(oid.get_next_url())
+
 
 @app.route('/login')
 @oid.loginhandler
@@ -53,6 +61,7 @@ def login():
     if g.user is not None:
         return redirect(oid.get_next_url())
     return oid.try_login('http://steamcommunity.com/openid')
+
 
 @oid.after_login
 def create_or_login(resp):
@@ -69,28 +78,32 @@ def create_or_login(resp):
     flash('You are logged in as %s' % g.user.nickname)
     return redirect(oid.get_next_url())
 
+
 @app.route('/')
 def index():
     coming_events = Event.query.order_by(Event.scheduled_date).all()
     return render_template('index.html', events=coming_events)
 
+
 @app.route('/<evid>')
 def event(evid):
     ev = Event.query.get_or_404(evid)
+    print(pjson.dumps(ev.as_dict()))
     return render_template('event-page.html', event=ev)
+
 
 @app.route('/create', methods=['GET', 'PUT', 'POST'])
 @login_required
 @admin_required
 def create_event():
-    if request.method in ['PUT','POST']:
+    if request.method in ['PUT', 'POST']:
         event_json = request.get_json()
-       
+
         if event_json is None:
             raise BadRequest(description="Invalid JSON!")
 
         new_event = Event()
-        #if request.method == 'POST':
+        # if request.method == 'POST':
         #    event_id = event_json.get('eventId')
         #    new_event = Event.query.filter_by(id=event_id).first()
 
@@ -104,22 +117,23 @@ def create_event():
         for side, groups in event_json.get('eventSlots').items():
             new_side = Side(title=side)
             new_groups = []
-            
+
             for group in groups:
                 new_grp = Group(title=group.get('name'))
-                new_grp.slots = [Slot(title=unit.get('role'), group=new_grp) 
+                new_grp.slots = [Slot(title=unit.get('role'), group=new_grp)
                         for unit in group.get('units')]
                 new_groups.append(new_grp)
-            
-            new_side.groups = new_groups    
+
+            new_side.groups = new_groups
             sides.append(new_side)
-        
+
         new_event.sides = sides
         db.session.add(new_event)
         db.session.commit()
         return redirect(url_for('index'), code=302)
     elif request.method == 'GET':
         return render_template('event-create.html')
+
 
 @app.route('/upload', methods=['POST'])
 @login_required
@@ -136,7 +150,6 @@ def upload_file():
         else:
             return fname
 
-
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -145,9 +158,11 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], new_filename))
             return url_for('uploaded_file', filename=new_filename, _external=True)
 
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+
 
 @app.before_request
 def create_mock_event():
