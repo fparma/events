@@ -1,4 +1,7 @@
-{% extends 'layout.html' %} {% block content %}
+{% extends 'layout.html' %} 
+{% import '_default.html' as def %}
+{% block title %} {{ def.title + ' - Create Event' }}  {% endblock %}
+{% block content %}
 <div class="header"></div>
 <div class="content event-creation" ng-app="fpEvents" ng-controller="eventsCtrl" ng-cloak>
 	<h1 class="create-header">Create an event</h1>
