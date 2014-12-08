@@ -24,12 +24,14 @@
 		{% endwith %}
 		{% block content %}
 		{% endblock %}	
+		{% block footer %}
 		<div class="footer">
 			{% if g.user %}
 				<a class="logout" href="{{ url_for('logout') }}">Log out</a>
 			{% endif %}
 			<div class="steam">Powered by Steam. <a href="http://steampowered.com">http://steampowered.com</a></div>
-	</div>
+		</div>
+		{% endblock %}
 	</body>
 
 </html>

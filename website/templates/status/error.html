@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% import '_default.html' as def %}
+{% block title %} {{def.title}} - {{error_title}} {% endblock %} 
+{% block content %}
+<div class="content" style="text-align: center">
+	<h1>{{error_title}}</h1>
+	{% block error_content %}
+	{% endblock %}
+</div>
+{% endblock %}
+{% block footer %} 
+{% endblock%}
