@@ -12,6 +12,10 @@ $header-color:#2E2E2E;
 $primary-color:#428bca;
 $secondary-color:orange;
 
+body {
+	margin: 0;
+}
+
 html {
 	overflow: auto;
 }
@@ -84,6 +88,7 @@ a {
 
 .content {
     @include container(50%);
+	min-width: 400px;
 }
 
 .header {
@@ -138,13 +143,36 @@ a {
 		}
 	}
 
-	.slot {
-
-	}
 
 	.slots {		
 		padding: 25px;
 
+		
+
+		.side {
+			background: lighten($header-color, 2%);
+			border: 1px solid darken($header-color, 3%);
+			
+			h2 {
+				background: darken($header-color, 5%);
+				padding: 15px;
+				margin: 0;
+			}
+
+		}
+
+		.group {
+			h3 {
+				border-bottom: 1px solid darken($header-color, 3%);
+				padding: 15px;
+				margin: 0;
+			}
+		}
+
+		.slot {
+			margin-left: 15px;
+			padding: 5px;
+		}
 		.undefined {
 			
 		}

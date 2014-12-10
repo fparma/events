@@ -88,7 +88,7 @@ def index():
 @app.route('/<evid>')
 def event(evid):
     ev = Event.query.get_or_404(evid)
-    print(pjson.dumps(ev.as_dict()))
+    #print(pjson.dumps(ev.as_dict()))
     return render_template('event-page.html', event=ev)
 
 
