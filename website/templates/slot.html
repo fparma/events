@@ -1,3 +1,8 @@
 <div class="slot">
-{{slot.title}}
+	{{slot.title}}
+	<span class="assignee">
+		{% if slot.occupant %}
+			- {{slot.occupant.nickname}}
+		{% endif %}
+	</span>
 </div>

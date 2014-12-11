@@ -48,7 +48,7 @@ class User(db.Model, Serializable):
     slots = db.relationship('Slot',
             backref=db.backref('occupant'))
 
-    nickname = db.String(128)
+    nickname = db.Column(db.String(128))
 
     # [TODO] track timezone, have a default value.
 
