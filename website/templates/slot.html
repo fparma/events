@@ -1,4 +1,8 @@
-<div class="slot">
+{% set status = "unassigned" %}
+{% if slot.occupant and slot.occupant != g.user %}
+	{% set status = "assigned" %}
+{% endif %}
+<div class="slot slot-{{status}}">
 	{{slot.title}}
 	<span class="assignee">
 		{% if slot.occupant %}
