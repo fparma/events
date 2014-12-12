@@ -45,15 +45,14 @@ a {
 	@include clearfix;
 	margin-top: 25px;
 	width: 100%;
+}
 
-	.create {
-		float: left;
-	}
+.topbar-create {
+	float: left;
+}
 
-	.login {
-		float: right;
-	}
-
+.topbar-login {
+	float: right;
 }
 
 .footer {
@@ -61,15 +60,14 @@ a {
 	@include sticky-footer(1em);
 	font-size: 0.8em;
 	padding: 25px;
+}
 
-	.logout {
-		float: left;
-	}
+.footer-logout {
+	float: left;
+}
 
-	.steam {
-		float: right;
-	}
-
+.footer-steam {
+	float: right;
 }
 
 .flashes {
@@ -99,107 +97,109 @@ a {
 
 .event-small {
 
-	.title {
-		font-size: 1.5em;
-		float: left;
-	}
 
-	.description {
-		
-	}
+}
 
-	.slots {
+.event-small-title {
+	font-size: 1.5em;
+	float: left;
+}
+
+.event-small-description {
+	
+}
+
+.event-small-slots {
+	font-weight: 400;
+	float: right;
+}
+
+
+.event {
+
+}
+
+.event-title {
+	
+}
+
+.event-image {
+	img {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.event-description {
+	header {
+		background: darken($header-color, 4%);
 		font-weight: 400;
-		float: right;
+		padding: 10px;
+	}
+	section {
+		background: darken($header-color, 5%);
+		padding: 15px;
+		line-height: 1.5em;
+		font-size: 0.8em;
+		color: darken(white, 15%);
+	}
+}
+
+.event-side {
+	background: lighten($header-color, 2%);
+	border: 1px solid darken($header-color, 3%);
+	
+	h2 {
+		background: darken($header-color, 5%);
+		padding: 15px;
+		margin: 0;
 	}
 
 }
 
-.event {
-
-	.title {
-
+.event-group {
+	h3 {
+		border-bottom: 1px solid darken($header-color, 3%);
+		padding: 15px;
+		margin: 0;
 	}
+}
 
-	.image {
-	    img {
-    	    width: 100%;
-        	height: auto;
-    	}
+.event-group-undefined {
+	
+}
+
+.event-slot {
+	padding: 5px;
+	padding-left: 15px;
+
+	.assignee {
+		text-align: right;
+		color: green;
 	}
+	
+}
 
-	.description {
-		header {
-			background: darken($header-color, 4%);
-			font-weight: 400;
-			padding: 10px;
-		}
-		section {
-			background: darken($header-color, 5%);
-			padding: 15px;
-			line-height: 1.5em;
-			font-size: 0.8em;
-			color: darken(white, 15%);
-		}
+.event-slots {
+	padding: 25px;
+}
+
+.event-slots-undefined {
+
+}	
+
+.event-slot-assigned {
+	
+}
+
+.event-slot-unassigned {	
+	&:hover {
+		@include transition(background 0.5s ease-in-out);
+		background: lighten($header-color, 5%);
+		cursor: pointer;	
 	}
+}
 
-
-	.slots {		
-		padding: 25px;
-
-		
-
-		.side {
-			background: lighten($header-color, 2%);
-			border: 1px solid darken($header-color, 3%);
-			
-			h2 {
-				background: darken($header-color, 5%);
-				padding: 15px;
-				margin: 0;
-			}
-
-		}
-
-		.group {
-			h3 {
-				border-bottom: 1px solid darken($header-color, 3%);
-				padding: 15px;
-				margin: 0;
-			}
-
-			.slot {
-				padding: 5px;
-				padding-left: 15px;
-
-				.assignee {
-					text-align: right;
-					color: green;
-				}
-
-			
-			}	
-
-			.slot-assigned {
-				
-			}
-
-			.slot-unassigned {	
-				&:hover {
-					@include transition(background 0.5s ease-in-out);
-					background: lighten($header-color, 5%);
-					cursor: pointer;	
-				}
-			}
-
-
-		}
-
-		.undefined {
-			
-		}
-	}
-} 
 
 [ng\:cloak],
 [ng-cloak],

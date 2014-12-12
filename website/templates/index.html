@@ -4,10 +4,10 @@
 <div class="content">
 	<div class="topbar">
 		{% if g.user and g.user.is_admin %}
-			<a class="create" href="{{ url_for('create_event')}}">Create Event</a>
+			<a class="topbar-create" href="{{ url_for('create_event')}}">Create Event</a>
 		{% endif %}
 		{% if not g.user %}
-			<a class="login" href="{{ url_for('login')}}"><img src="http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_small.png"/></a>
+			<a class="topbar-login" href="{{ url_for('login')}}"><img src="http://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_small.png"/></a>
 		{% endif %}
 	</div>
 	<div class="header">

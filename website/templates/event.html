@@ -1,17 +1,17 @@
 <div class="event">
-	<div class="image">
+	<div class="event-image">
 		{% if event.image_url %}
 			<img src="{{event.image_url}}"/>
 		{% endif %}
 	</div>
-	<h1 class="title">{{event.title}}</h1>
-	<div class="description">
+	<h1 class="event-title">{{event.title}}</h1>
+	<div class="event-description">
 		<header>Description</header>
 		<section>
 			{{event.description}}
 		</section>
 	</div>
-	<div class="slots">
+	<div class="event-slots">
 		{% for side in event.sides %}
 			{% include 'side.html' %}
 		{% else %}
