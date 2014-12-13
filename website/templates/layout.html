@@ -28,9 +28,10 @@
 		{% block footer %}
 		<div class="footer">
 			{% if g.user %}
-				<a class="footer-logout" href="{{ url_for('logout') }}">Log out</a>
+				<a class="footer-logout" href="{{ url_for('logout') }}">Log out</a><br>
 			{% endif %}
-			<div class="footer-steam">Powered by Steam. <a href="http://steampowered.com">http://steampowered.com</a></div>
+			<a href="mailto:{{def.contact_email}}">Contact us</a>
+			<div class="footer-steam">Powered by Steam.<a href="http://steampowered.com">http://steampowered.com</a></div>
 		</div>
 		{% endblock %}
 	</body>
