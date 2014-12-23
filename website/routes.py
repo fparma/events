@@ -11,6 +11,11 @@ import os, re, json as pjson
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 
+def redirect_url():
+	return request.args.get('next') or \
+			request.referrer or \
+			url_for('index')
+
 
 def allowed_file(filename):
 	return '.' in filename and \
@@ -111,11 +116,11 @@ def event_signup(eventid, slotid):
 
 		db.session.add(slot)
 		db.session.commit()
-		return redirect(url_for('index'))
+		return redirect(redirect_url())
 
 	else:
 		flash('Slot already occupied, pick another one.')
-		return redirect(url_for('index'), 403)
+		return redirect(redirect_url(), 403)
 
 @app.route('/create', methods=['GET', 'PUT', 'POST'])
 @login_required
