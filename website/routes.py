@@ -99,19 +99,28 @@ def event(evid):
 
 @app.route('/assign/<int:eventid>/<int:slotid>', methods=['POST'])
 @login_required
-def event_signup(eventid, slotid):
+def event_signup(eventid, slotid):	
 	
+	action = request.form.get('action')
 	slot = Slot.query.get_or_404(slotid)
 	this_event = Event.query.get_or_404(eventid)
+	
+	if action == 'kick' and g.user.is_admin:
+		slot.occupant = None
 
-	if slot.occupant is None or slot.occupant == g.user:
+		db.session.add(slot)
+		db.session.commit()
+		return redirect(redirect_url())
+
+	elif action is None and (slot.occupant is None or slot.occupant == g.user):
 		slot_side = slot.group.side
 		occupied_slot = Slot.query \
 			.join(Group) \
 			.join(Side) \
 			.join(Event) \
 			.filter(Slot.occupant_id == g.user.id, Event.id == this_event.id).first()
-		if occupied_slot is not None:
+
+		if occupied_slot is not None and occupied_slot != slot:
 			occupied_slot.occupant = None
 
 		if slot.occupant is None:

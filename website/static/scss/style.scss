@@ -184,7 +184,16 @@ a {
 	padding: 5px;
 	padding-left: 15px;
 	text-align: left;
-	width: 100%;
+
+	button {
+		border: inherit;
+		background: inherit;
+		color: inherit;
+		&:hover {
+			@include transition(color 0.5s ease-in-out);
+			color: orange;
+		}
+	}
 
 	.assignee {
 		text-align: right;
@@ -204,15 +213,15 @@ a {
 .event-slot-assigned {
 	
 }
-
+/*
 .event-slot-unassigned {	
 	&:hover {
-		@include transition(background 0.5s ease-in-out);
+		@include transition(background 0.5s ease-in-out color 0.5s ease-in-out);
 		background: lighten($header-color, 5%);
-		cursor: pointer;	
+		cursor: pointer;
 	}
 }
-
+*/
 
 [ng\:cloak],
 [ng-cloak],

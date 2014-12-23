@@ -3,7 +3,8 @@
 	{% set status = "assigned" %}
 {% endif %}
 <form action="{{url_for('event_signup', eventid=event.id, slotid=slot.id)}}" method="post">
-		<button {% if not g.user %} disabled {%endif %} class="event-slot event-slot-{{status}}">
+	<div class="event-slot">
+		<button {% if not g.user %} disabled {%endif %} class="event-slot-{{status}}">
 			{{slot.title}}
 			<span class="assignee">
 				{% if slot.occupant %}
@@ -11,4 +12,10 @@
 				{% endif %}
 			</span>
 		</button>
+		<span class="modifiers">
+			{% if g.user.is_admin %}
+				<button type="submit" name="action" value="kick" style="float:right;">Kick</button>
+			{% endif %}
+		</span>
+	</div>
 </form>
