@@ -178,8 +178,13 @@ a {
 }
 
 .event-slot {
+	border: 0;
+	background: 0;
+	color: inherit;
 	padding: 5px;
 	padding-left: 15px;
+	text-align: left;
+	width: 100%;
 
 	.assignee {
 		text-align: right;

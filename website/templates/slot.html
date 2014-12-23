@@ -2,11 +2,13 @@
 {% if slot.occupant and slot.occupant != g.user %}
 	{% set status = "assigned" %}
 {% endif %}
-<div class="event-slot event-slot-{{status}}">
-	{{slot.title}}
-	<span class="assignee">
-		{% if slot.occupant %}
-			- {{slot.occupant.nickname}}
-		{% endif %}
-	</span>
-</div>
+<form action="{{url_for('event_signup', slotid=slot.id)}}" method="post">
+		<button {% if not g.user %} disabled {%endif %} class="event-slot event-slot-{{status}}">
+			{{slot.title}}
+			<span class="assignee">
+				{% if slot.occupant %}
+					- {{slot.occupant.nickname}}
+				{% endif %}
+			</span>
+		</button>
+</form>

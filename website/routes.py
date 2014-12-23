@@ -96,8 +96,14 @@ def event(evid):
 @login_required
 def event_signup(slotid):
 	slot = Slot.query.get_or_404(slotid)
+	print(slot.occupant)
 	if slot.occupant is None:
 		slot.occupant = g.user
+		db.session.add(slot)
+		db.session.commit()
+		return redirect(url_for('index'))
+	elif slot.occupant.id == g.user.id:
+		slot.occupant = None
 		db.session.add(slot)
 		db.session.commit()
 		return redirect(url_for('index'))
