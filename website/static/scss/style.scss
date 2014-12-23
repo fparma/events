@@ -6,7 +6,7 @@
 @import "compass/layout/sticky-footer";
 @import "compass/css3/box-shadow";
 @import "compass/css3/transition";
-@import "grids";
+@import "pure/all";
 
 $header-color:#2E2E2E;
 $primary-color:#428bca;
@@ -21,7 +21,6 @@ html {
 }
 
 body {
-    @include container;
 	@include clearfix;
     font: 300 1.05em / 1.5em"Open Sans", serif;
     color: $primary-color;
@@ -56,7 +55,8 @@ a {
 }
 
 .footer {
-	@include container(50%);
+	width: 75%;
+	margin: 0 auto;
 	@include sticky-footer(1em);
 	font-size: 0.8em;
 	padding: 25px;
@@ -75,7 +75,6 @@ a {
 }
 
 .flashes {
-	@include container(50%);
 	padding: 25px;
 	padding-bottom: 0;
 
@@ -89,7 +88,8 @@ a {
 }
 
 .content {
-    @include container(50%);
+	width: 75%;
+	margin: 0 auto;
 	min-width: 400px;
 }
 

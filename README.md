@@ -10,9 +10,8 @@ For config `appconf.py` is used, an example file is provided (`appconf.py.exampl
 Requirements
 ---------------
 * SASS
-  * Breakpoint
   * Compass
-  * Susy
+  * pure-sass
 * Python >= 3.3
   * Flask
 	* Flask-Assets
