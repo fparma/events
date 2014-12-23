@@ -92,22 +92,29 @@ def event(evid):
 	return render_template('event-page.html', event=ev)
 
 
-@app.route('/assign/<int:slotid>', methods=['POST'])
+@app.route('/assign/<int:eventid>/<int:slotid>', methods=['POST'])
 @login_required
-def event_signup(slotid):
+def event_signup(eventid, slotid):
+	
 	slot = Slot.query.get_or_404(slotid)
-	print(slot.occupant)
-	if slot.occupant is None:
-		slot.occupant = g.user
+	event = Event.query.get_or_404(eventid)
+
+	if slot.occupant is None or slot.occupant == g.user:
+		occupied_slot = Slot.query.filter_by(group=slot.group, occupant=g.user).first()
+		if occupied_slot is not None:
+			occupied_slot.occupant = None
+
+		if slot.occupant is None:
+			slot.occupant = g.user
+		elif slot.occupant.id == g.user.id:
+			slot.occupant = None
+
 		db.session.add(slot)
 		db.session.commit()
 		return redirect(url_for('index'))
-	elif slot.occupant.id == g.user.id:
-		slot.occupant = None
-		db.session.add(slot)
-		db.session.commit()
-		return redirect(url_for('index'))
+
 	else:
+		flash('Slot already occupied, pick another one.')
 		return redirect(url_for('index'), 403)
 
 @app.route('/create', methods=['GET', 'PUT', 'POST'])
@@ -185,8 +192,9 @@ def uploaded_file(filename):
 @app.before_request
 def create_mock_event():
 	if Event.query.all() == []:
-		slot = Slot(title="Platoon Leader")
-		group = Group(title="Lawman One", slots=[slot])
+		slot1 = Slot(title="Platoon Leader")
+		slot2 = Slot(title="Platoon Medic")
+		group = Group(title="Lawman One", slots=[slot1, slot2])
 		side = Side(title="West", groups=[group])
 		new_event = Event(title="C025 - The Bog", event_type="CO", description="Following an ambush that left half of the platoon destroyed, the remaining men in Lawman Company move out to save the only survivors, a mobility-killed Abrams tank, stranded in the middle of hostile territory. Their job is to fight their way to the tank, repair it, and escort it back to base. Obviously based on CoD4 because goddamn that game was sick.", image_url="http://i.cubeupload.com/1rlvG0.png", sides=[side])
 		db.session.add(new_event)
