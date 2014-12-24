@@ -28,3 +28,4 @@ appconf.py
 
 #webassets
 .webassets-cache
+fonts/*

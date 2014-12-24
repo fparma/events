@@ -13,8 +13,8 @@
 			</span>
 		</button>
 		<span class="modifiers">
-			{% if g.user.is_admin %}
-				<button type="submit" name="action" value="kick" style="float:right;">Kick</button>
+			{% if slot.occupant and g.user.is_admin %}
+				<button class="fa fa-eject" title="Kick from Slot" type="submit" name="action" value="kick" style="float:right;"/>
 			{% endif %}
 		</span>
 	</div>
