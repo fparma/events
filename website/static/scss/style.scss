@@ -189,7 +189,7 @@ a {
 
 	button {
 		border: inherit;
-		background: inherit;
+		background: 0;
 		color: inherit;
 		&:hover {
 			@include transition(color 0.5s ease-in-out);
