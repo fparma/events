@@ -8,7 +8,6 @@
 @import "compass/css3/transition";
 @import "font-awesome-compass";
 @import "font-awesome";
-@import "pure/all";
 
 $header-color:#2E2E2E;
 $primary-color:#428bca;
@@ -152,6 +151,8 @@ a {
 }
 
 .event-side {
+	display: flex;
+	flex-wrap: wrap;
 	background: lighten($header-color, 2%);
 	border: 1px solid darken($header-color, 3%);
 	
@@ -206,6 +207,9 @@ a {
 
 .event-slots {
 	padding: 25px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
 }
 
 .event-slots-undefined {
