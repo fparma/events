@@ -171,6 +171,7 @@ a {
 }
 
 .event-group {
+	flex-grow: 1;
 	h3 {
 		border-bottom: 1px solid darken($header-color, 3%);
 		padding: 15px;
