@@ -21,9 +21,17 @@ def get_steam_userinfo(steam_id):
 
 
 class Serializable():
-    def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+    def as_dict(self, cols = None):
+        new_dict = {}
+        data = cols or self.__public__
+        for col in data:
+            if isinstance(getattr(self, col), list):
+                items = [item for item in getattr(self, col)]
+                new_dict[col] = [i.as_dict() for i in items]
+            else:
+                new_dict[col] = getattr(self, col)
+        return new_dict
 
 class Ban(db.Model):
     __tablename__ = "ban"
@@ -64,6 +72,7 @@ class User(db.Model, Serializable):
 
 class Event(db.Model, Serializable):
 
+    __public__ = ['id', 'title', 'creator_id', 'description', 'image_url', 'slot_count', 'scheduled_date', 'sides']
     __tablename__ = "event"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -84,6 +93,7 @@ class Event(db.Model, Serializable):
 
 class Slot(db.Model, Serializable):
 
+    __public__ = ['id', 'title', 'group_id', 'occupant_id', 'comment', 'occupant']
     __tablename__ = "slot"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -95,6 +105,7 @@ class Slot(db.Model, Serializable):
 
 class Group(db.Model, Serializable):
 
+    __public__ = ['id', 'title', 'event_id', 'side_id', 'slots']
     __tablename__ = "group"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -108,6 +119,7 @@ class Group(db.Model, Serializable):
 
 class Side(db.Model, Serializable):
 
+    __public__ = ['id', 'event_id', 'title', 'groups']
     __tablename__ = "side"
 
     id = db.Column(db.Integer, primary_key=True)

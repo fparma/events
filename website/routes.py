@@ -1,4 +1,6 @@
-from flask import send_from_directory, render_template, session, redirect, flash, url_for, request, json, g
+from flask import send_from_directory, render_template, session, redirect, flash, url_for, request, json, jsonify, g
+
+
 
 from website import app, oid
 from werkzeug import secure_filename
@@ -6,7 +8,13 @@ from werkzeug.exceptions import BadRequest
 from website.database import get_steam_userinfo, Ban, Event, Slot, Side, Group, User, db
 
 from functools import wraps
+from datetime import datetime
 import os, re, json as pjson
+
+
+def date_serialize(obj):
+	if isinstance(obj, datetime):
+		return obj.isoformat()
 
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
@@ -93,7 +101,8 @@ def index():
 @app.route('/<evid>')
 def event(evid):
 	ev = Event.query.get_or_404(evid)
-	#print(pjson.dumps(ev.as_dict()))
+
+	print(pjson.dumps(ev.as_dict(), default=date_serialize))
 	return render_template('event-page.html', event=ev)
 
 
