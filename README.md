@@ -11,7 +11,6 @@ Requirements
 ---------------
 * SASS
   * Compass
-  * pure-sass
 * font-awesome
 * Python >= 3.3
   * Flask
