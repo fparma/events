@@ -98,13 +98,17 @@ def index():
 	return render_template('index.html', events=coming_events)
 
 
-@app.route('/<evid>')
+@app.route('/event/<evid>')
 def event(evid):
 	ev = Event.query.get_or_404(evid)
 
 	print(pjson.dumps(ev.as_dict(), default=date_serialize))
 	return render_template('event-page.html', event=ev)
 
+@app.route('/event/<evid>.json')
+def event_json(evid):
+	ev = Event.query.get_or_404(evid)
+	return pjson.dumps(ev.as_dict(), default=date_serialize)
 
 @app.route('/assign/<int:eventid>/<int:slotid>', methods=['POST'])
 @login_required
@@ -145,10 +149,10 @@ def event_signup(eventid, slotid):
 		flash('Slot already occupied, pick another one.')
 		return redirect(redirect_url(), 403)
 
-@app.route('/create', methods=['GET', 'PUT', 'POST'])
+@app.route('/event/create', methods=['GET', 'PUT', 'POST'])
 @login_required
 @admin_required
-def create_event():
+def event_create():
 	if request.method in ['PUT', 'POST']:
 		event_json = request.get_json()
 
