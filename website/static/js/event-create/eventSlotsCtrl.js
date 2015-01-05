@@ -93,7 +93,7 @@ angular.module('fpEvents.slots', [])
 			};
 
 			$scope.removeUnitFromGroup = function (group) {
-				return group.units.splice(group.length - 1, 1);
+				return group.units.splice(group.units.length - 1, 1);
 			};
 
 			$scope.uploadSQMFile = function () {

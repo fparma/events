@@ -48,16 +48,16 @@ angular.module('fpEvents', ['fpEvents.create', 'fpEvents.slots'])
 					transformRequest: angular.identity,
 					headers: getFormHeaders()
 				});
-
 			}
 		};
 
     }]).service('EventService', ['$http', '$window', '$location',
         function ($http, $window, $location) {
+        var path = window.FP_create_url || '/create';
 		// TODO should redirect really happen here
 		this.createNewEvent = function (data) {
 			return $http({
-				url: '/create',
+				url: path,
 				method: 'POST',
 				data: data,
 				headers: {
