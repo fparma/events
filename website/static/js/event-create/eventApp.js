@@ -1,6 +1,6 @@
 /*global angular: false*/
 
-angular.module('fpEvents', ['fpEvents.create', 'fpEvents.slots'])
+angular.module('fpEvents', ['fpEvents.create', 'fpEvents.slots', 'angular-datepicker'])
 
 .config(['$interpolateProvider', '$httpProvider',
         function ($interpolateProvider, $httpProvider) {

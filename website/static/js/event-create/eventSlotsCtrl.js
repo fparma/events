@@ -116,8 +116,15 @@ angular.module('fpEvents.slots', [])
 						slots[i] = $scope.sideSlots[i];
 					}
 				}
+				
+				var d = new Date($scope.eventDate);
+				d.setHours(parseInt($scope.eventTime.split(':')[0]), 10);
+				d.setMinutes(parseInt($scope.eventTime.split(':')[1]), 10);
+				var utc = d.toUTCString();
+				
 				var data = angular.toJson({
 					eventType: $scope.eventType.name,
+					eventDateUTC: utc,
 					eventImageUrl: $scope.eventImageUrl,
 					eventSlotsNumber: parseInt($scope.eventSlots, 10),
 					eventName: $scope.eventName,
